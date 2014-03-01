@@ -22,7 +22,6 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Net;
 #endregion
 
 /// <summary>
