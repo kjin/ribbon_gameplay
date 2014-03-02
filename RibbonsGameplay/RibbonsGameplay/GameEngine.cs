@@ -30,20 +30,13 @@ namespace RibbonsGameplay
         {
 
             #region Constants
-            // How many frames after winning/losing do we continue?
-            int COUNTDOWN = 60;
+            
             #endregion
 
             #region Fields
-            // Win/Lose countdown (SIMPLE FIELD)
-            int countdown;
 
             // Used to draw the game onto the screen (VIEW CLASS)
             protected GameCanvas canvas;
-
-            // Victory and Failure Textures (part of VIEW)
-            private Texture2D victory;
-            private Texture2D failure;
 
             // Used to load the sounds and graphics (CONTROLLER CLASS)
             protected ContentManager content;
@@ -83,8 +76,6 @@ namespace RibbonsGameplay
             {
                 // General view content
                 canvas.LoadContent(content);
-                victory = content.Load<Texture2D>("Shared\\victory");
-                failure = content.Load<Texture2D>("Shared\\failure");
 
             }
 
@@ -106,10 +97,6 @@ namespace RibbonsGameplay
             protected override void Update(GameTime gameTime)
             {
                 inputController.ReadInput();
-
-                // Adjust world position if necessary.
-                bool reset = inputController.Reset;
-                bool next = inputController.Next;
 
                 base.Update(gameTime);
             }
