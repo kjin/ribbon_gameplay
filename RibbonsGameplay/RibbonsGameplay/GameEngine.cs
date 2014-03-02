@@ -16,13 +16,10 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 //using Microsoft.Xna.Framework.Net;
 //using Microsoft.Xna.Framework.Storage;
-using RibbonsGameplay.GameCanvas;
 #endregion
 
 namespace RibbonsGameplay
 {
-    class GameEngine
-    {
         /// <summary>
     /// The primary controller class for an XNA game.
     /// </summary>
@@ -115,4 +112,3 @@ namespace RibbonsGameplay
 
         }
     }
-}
