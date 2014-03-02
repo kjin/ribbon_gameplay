@@ -16,6 +16,8 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 //using Microsoft.Xna.Framework.Net;
 //using Microsoft.Xna.Framework.Storage;
+using FarseerPhysics.Collision;
+using FarseerPhysics.Dynamics;
 #endregion
 
 namespace RibbonsGameplay
@@ -28,6 +30,8 @@ namespace RibbonsGameplay
 
             #region Constants
             
+            public const float GRAVITY = 9.8f;
+
             #endregion
 
             #region Fields
@@ -43,6 +47,9 @@ namespace RibbonsGameplay
 
             // List of objects
             protected List<Object> objects;
+
+            // Physics simulator
+            protected World world;
 
             #endregion
 
