@@ -41,6 +41,9 @@ namespace RibbonsGameplay
             // Read input from keyboard or game pad (CONTROLLER CLASSES)
             protected MainInputController inputController;
 
+            // List of objects
+            protected List<Object> objects;
+
             #endregion
 
             #region Initialization
@@ -62,7 +65,15 @@ namespace RibbonsGameplay
             protected override void Initialize()
             {
                 canvas.Initialize(this);
-                //inputController = new MainInputController();
+
+                RibbonObject ribbon = new RibbonObject();
+                SeamstressObject seamstress = new SeamstressObject();
+
+                inputController = new MainInputController(seamstress, ribbon);
+
+                objects.Add(ribbon);
+                objects.Add(seamstress);
+
                 base.Initialize();
             }
 

@@ -5,9 +5,11 @@ using System.Text;
 
 namespace RibbonsGameplay
 {
-    interface Object
+    class BoxObject : Object
     {
-        void Draw(GameCanvas gameCanvas);
 
+        public virtual void Draw(GameCanvas g)
+        {
+        }
     }
 }

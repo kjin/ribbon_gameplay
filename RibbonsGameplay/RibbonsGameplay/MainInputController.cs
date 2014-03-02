@@ -82,7 +82,7 @@ namespace RibbonsGameplay {
         /// <summary>
         /// Creates a new input controller.
         /// </summary>
-        public MainInputController() { }
+        public MainInputController(SeamstressObject seamstress, RibbonObject ribbon) { }
 
         /// <summary>
         /// Reads the input for the player and converts the result into game logic.

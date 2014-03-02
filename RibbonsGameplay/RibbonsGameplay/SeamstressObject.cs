@@ -5,9 +5,12 @@ using System.Text;
 
 namespace RibbonsGameplay
 {
-    interface Object
+    class SeamstressObject : BoxObject
     {
-        void Draw(GameCanvas gameCanvas);
+
+        public override void Draw(GameCanvas g)
+        {
+        }
 
     }
 }
