@@ -167,7 +167,7 @@ namespace RibbonsGameplay
             this(w, standing, jumping, pos, new Vector2((float)standing.Width, (float)standing.Height)) { }
 
         /// <summary>
-        /// Create a new deamstress object. Activate Physics.
+        /// Create a new seamstress object. Activate Physics.
         /// </summary>
         /// <param name="texture">Avatar texture</param>
         /// <param name="pos">Location in world coordinates</param>
