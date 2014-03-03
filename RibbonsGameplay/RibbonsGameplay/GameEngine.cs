@@ -91,7 +91,7 @@ namespace RibbonsGameplay
                 world.ContactManager.EndContact += ContactEnded;
 
                 RibbonObject ribbon = new RibbonObject(world);
-                SeamstressObject seamstress = new SeamstressObject(world,null,null);
+                SeamstressObject seamstress = new SeamstressObject();
 
                 seamstressController = new SeamstressForceController(seamstress);
                 world.AddController(seamstressController);
