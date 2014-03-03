@@ -40,14 +40,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 #endregion
 
-/// <summary>
-/// The namespace, or package, of this application.
-/// </summary>
-/// <remarks>
-/// All C# programs have a namespace.  They function the same way that Java
-/// packages do  Like Java, your directory must store the source code in 
-/// folders with the same name as the namespace.
-/// </remarks>
 namespace RibbonsGameplay {
 
 #region Enum
@@ -90,10 +82,13 @@ namespace RibbonsGameplay {
     #endregion
 
     #region Fields
+        protected Texture2DManager textureManager;
+
         // Used to track window properties
         protected GraphicsDeviceManager graphics;
         protected GameWindow window;
         protected Rectangle bounds;
+        protected bool fullscreen;
 
         // For drawing sprites
         protected SpriteBatch spriteBatch;
@@ -106,9 +101,6 @@ namespace RibbonsGameplay {
 
         // For onscreen messages
         protected SpriteFont font;
-
-        // Private variable for property IsFullscreen.
-        protected bool fullscreen;
 
         // Attributes to rescale the image
         protected Matrix transform;
@@ -384,6 +376,18 @@ namespace RibbonsGameplay {
 
             // We are not actively drawing
             state = DrawState.Inactive;
+
+            textureManager = new Texture2DManager();
+        }
+
+        public void AddTexture(params string[] assetName)
+        {
+            textureManager.AddTexture(assetName);
+        }
+
+        public Texture2D GetTexture(string assetName)
+        {
+            return textureManager.GetTexture(assetName);
         }
 
         /// <summary>
@@ -395,6 +399,9 @@ namespace RibbonsGameplay {
         public void LoadContent(ContentManager content) {
             // Load sprite font
             //font = content.Load<SpriteFont>("Shared\\PhysicsFont");
+
+            AddTexture("backgrounds/bluemt");
+            textureManager.LoadContent(content);
         }
 
         /// <summary>
@@ -407,11 +414,12 @@ namespace RibbonsGameplay {
         }
     #endregion
 
-    #region Drawing Methods
+        #region Drawing Methods
         /// <summary>
         /// Clear the canvas and reset the drawing state for a new animation frame.
         /// </summary>
-        public void Reset() {
+        public void Reset()
+        {
             graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // Allow either pass to follow.
@@ -428,7 +436,8 @@ namespace RibbonsGameplay {
         /// until it has ended.
         /// </remarks>
         /// <param name="blend">Blending mode for combining sprites</param>
-        public void BeginSpritePass(BlendState blend) {
+        public void BeginSpritePass(BlendState blend)
+        {
             // Check that state invariant is satisfied.
             Debug.Assert(state == DrawState.Inactive, "Drawing state is invalid (expected Inactive)");
             state = DrawState.SpritePass;
@@ -447,7 +456,8 @@ namespace RibbonsGameplay {
         /// <param name="image">Sprite to draw</param>
         /// <param name="tint">Color to tint sprite</param>
         /// <param name="position">Location to draw image on canvas</param>
-        public void DrawSprite(Texture2D image, Color tint, Vector2 position) {
+        public void DrawSprite(Texture2D image, Color tint, Vector2 position)
+        {
             // Enforce pass invariants.
             Debug.Assert(state == DrawState.SpritePass, "Drawing state is invalid (expected SpritePass)");
 
@@ -470,7 +480,8 @@ namespace RibbonsGameplay {
         /// <param name="position">Location to draw image on canvas</param>
         /// <param name="scale">Amount to scale image (in addition to global scale)</param>
         /// <param name="angle">Amount to rotate image in radians</param>
-        public void DrawSprite(Texture2D image, Color tint, Vector2 position, Vector2 scale, float angle) {
+        public void DrawSprite(Texture2D image, Color tint, Vector2 position, Vector2 scale, float angle)
+        {
             // Enforce invariants.
             Debug.Assert(state == DrawState.SpritePass, "Drawing state is invalid (expected SpritePass)");
 
@@ -493,7 +504,8 @@ namespace RibbonsGameplay {
         /// <param name="scale">Amount to scale image (in addition to global scale)</param>
         /// <param name="angle">Amount to rotate image in radians</param>
         /// <param name="effects">Sprite effect to flip image</param>
-        public void DrawSprite(Texture2D image, Color tint, Vector2 position, Vector2 scale, float angle, SpriteEffects effects) {
+        public void DrawSprite(Texture2D image, Color tint, Vector2 position, Vector2 scale, float angle, SpriteEffects effects)
+        {
             // Enforce invariants.
             Debug.Assert(state == DrawState.SpritePass, "Drawing state is invalid (expected SpritePass)");
 
@@ -519,7 +531,8 @@ namespace RibbonsGameplay {
         /// <param name="angle">Amount to rotate image in radians</param>
         /// <param name="frame">Current animation frame</param>
         /// <param name="framesize">Number of frames in filmstrip</param>
-        public void DrawSprite(Texture2D image, Color tint, Vector2 position, Vector2 scale, float angle, int frame, int framesize) {
+        public void DrawSprite(Texture2D image, Color tint, Vector2 position, Vector2 scale, float angle, int frame, int framesize)
+        {
             // Enforce invariants.
             Debug.Assert(state == DrawState.SpritePass, "Drawing state is invalid (expected SpritePass)");
 
@@ -528,7 +541,7 @@ namespace RibbonsGameplay {
             int height = image.Height;
 
             // Compute frame position assuming only 1 row of frames.
-            Rectangle src  = new Rectangle(frame * width, 0, width, height);
+            Rectangle src = new Rectangle(frame * width, 0, width, height);
             Vector2 origin = new Vector2(width / 2, height / 2);
 
             // Draw it.
@@ -546,16 +559,18 @@ namespace RibbonsGameplay {
         /// <param name="image">Sprite to draw</param>
         /// <param name="tint">Color to tint sprite</param>
         /// <param name="fill">Whether to stretch the image to fill the window</param>
-        public void DrawOverlay(Texture2D image, Color tint, bool fill) {
+        public void DrawOverlay(Texture2D image, Color tint, bool fill)
+        {
             // Enforce invariants.
             Debug.Assert(state == DrawState.SpritePass, "Drawing state is invalid (expected SpritePass)");
 
-            Vector2 pos   = new Vector2(Width,Height)/(2*Scale);
-            Vector2 orig  = new Vector2(image.Width/2, image.Height/2);
-            Vector2 scale = new Vector2(1/SX, 1/SY); // To counter global scale
-            if (fill) {
-                scale.X = Width / (image.Width*SX);
-                scale.Y = Height / (image.Height*SY);
+            Vector2 pos = new Vector2(Width, Height) / (2 * Scale);
+            Vector2 orig = new Vector2(image.Width / 2, image.Height / 2);
+            Vector2 scale = new Vector2(1 / SX, 1 / SY); // To counter global scale
+            if (fill)
+            {
+                scale.X = Width / (image.Width * SX);
+                scale.Y = Height / (image.Height * SY);
             }
 
             // Draw this unscaled
@@ -573,10 +588,11 @@ namespace RibbonsGameplay {
         /// <param name="image">Sprite to draw</param>
         /// <param name="tint">Color to tint sprite</param>
         /// <param name="pos">Position to draw in WINDOW COORDS</param>
-        public void DrawOverlay(Texture2D image, Color tint, Vector2 pos) {
+        public void DrawOverlay(Texture2D image, Color tint, Vector2 pos)
+        {
             // Enforce invariants.
             Debug.Assert(state == DrawState.SpritePass, "Drawing state is invalid (expected SpritePass)");
-           
+
             // Rescale position to align
             pos = pos / Scale;
             Vector2 orig = new Vector2(image.Width / 2, image.Height / 2);
@@ -596,10 +612,11 @@ namespace RibbonsGameplay {
         /// <param name="text">Text to draw</param>
         /// <param name="tint">Text color</param>
         /// <param name="position">Location to draw text</param>
-        public void DrawText(String text, Color tint, Vector2 position) {
+        public void DrawText(String text, Color tint, Vector2 position)
+        {
             // Enforce invariants.
             Debug.Assert(state == DrawState.SpritePass, "Drawing state is invalid (expected SpritePass)");
-            spriteBatch.DrawString(font, text, position*Scale, tint);
+            spriteBatch.DrawString(font, text, position * Scale, tint);
         }
 
         /// <summary>
@@ -612,7 +629,8 @@ namespace RibbonsGameplay {
         /// <param name="tint">Text color</param>
         /// <param name="position">Location to draw text</param>
         /// <param name="font">Alternate font to use</param>
-        public void DrawText(String text, Color tint, Vector2 position, SpriteFont font) {
+        public void DrawText(String text, Color tint, Vector2 position, SpriteFont font)
+        {
             // Enforce invariants.
             Debug.Assert(state == DrawState.SpritePass, "Drawing state is invalid (expected SpritePass)");
             spriteBatch.DrawString(font, text, position * Scale, tint);
@@ -621,7 +639,8 @@ namespace RibbonsGameplay {
         /// <summary>
         /// End the sprite pass, flushing all graphics to the screen.
         /// </summary>
-        public void EndSpritePass() {
+        public void EndSpritePass()
+        {
             // Check the drawing state invariants.
             Debug.Assert(state == DrawState.SpritePass, "Drawing state is invalid (expected SpritePass)");
             state = DrawState.Inactive;
@@ -639,7 +658,8 @@ namespace RibbonsGameplay {
         /// Once a pass has begin, you cannot change attributes or draw sprites
         /// until it has ended.
         /// </remarks>
-        public void BeginPolygonPass() {
+        public void BeginPolygonPass()
+        {
             // Check that state invariant is satisfied.
             Debug.Assert(state == DrawState.Inactive, "Drawing state is invalid (expected Inactive)");
             state = DrawState.PolygonPass;
@@ -653,8 +673,9 @@ namespace RibbonsGameplay {
         /// </remarks>
         /// <param name="vertices">Vertices with texture mapping</param>
         /// <param name="texture">Texture to apply to polygon</param>
-        public void DrawPolygons(VertexPositionTexture[] vertices, Texture2D texture) {
-            DrawPolygons(vertices, texture, Vector2.Zero, 0.0f, 1.0f,BlendState.AlphaBlend);
+        public void DrawPolygons(VertexPositionTexture[] vertices, Texture2D texture)
+        {
+            DrawPolygons(vertices, texture, Vector2.Zero, 0.0f, 1.0f, BlendState.AlphaBlend);
         }
 
         /// <summary>
@@ -669,7 +690,8 @@ namespace RibbonsGameplay {
         /// <param name="angle">Angle to rotate polygon</param>
         /// <param name="scale">Amount to scale polygon</param>
         public void DrawPolygons(VertexPositionTexture[] vertices, Texture2D texture,
-                                 Vector2 position, float angle, float scale) {
+                                 Vector2 position, float angle, float scale)
+        {
             DrawPolygons(vertices, texture, position, angle, scale, BlendState.AlphaBlend);
         }
 
@@ -687,12 +709,13 @@ namespace RibbonsGameplay {
         /// <param name="blendMode">Blend mode to combine textures</param>
         public void DrawPolygons(VertexPositionTexture[] vertices, Texture2D texture,
                                  Vector2 position, float angle, float scale,
-                                 BlendState blendMode) {
+                                 BlendState blendMode)
+        {
             // Check the drawing state invariants.
             Debug.Assert(state == DrawState.PolygonPass, "Drawing state is invalid (expected PolygonPass)");
 
             // Create translation matrix
-            effect.World = Matrix.CreateRotationZ(angle) * Matrix.CreateScale(scale) * Matrix.CreateTranslation(new Vector3(position, 0)) *transform;
+            effect.World = Matrix.CreateRotationZ(angle) * Matrix.CreateScale(scale) * Matrix.CreateTranslation(new Vector3(position, 0)) * transform;
             effect.Texture = texture;
 
             // Prepare device for drawing.
@@ -705,7 +728,8 @@ namespace RibbonsGameplay {
             device.SamplerStates[0] = s;
 
             // Draw the polygon
-            foreach (EffectPass pass in effect.CurrentTechnique.Passes) {
+            foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+            {
                 pass.Apply();
                 device.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, vertices.Length / 3);
             }
@@ -714,7 +738,8 @@ namespace RibbonsGameplay {
         /// <summary>
         /// End the polygon pass.
         /// </summary>
-        public void EndPolygonPass() {
+        public void EndPolygonPass()
+        {
             // Check that state invariant is satisfied.
             Debug.Assert(state == DrawState.PolygonPass, "Drawing state is invalid (expected PolygonPass)");
             state = DrawState.Inactive;
@@ -722,7 +747,7 @@ namespace RibbonsGameplay {
 
         #endregion
 
-    #endregion
+        #endregion
 
     }
 
