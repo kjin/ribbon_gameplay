@@ -144,7 +144,7 @@ namespace RibbonsGameplay
                 if ((seamstress.SensorName.Equals(ud2) && seamstress != body1.UserData) ||
                    (seamstress.SensorName.Equals(ud1) && seamstress != body2.UserData))
                 {
-                    seamstress.OnGround();
+                    seamstress.IsGrounded = true;
                     sensorFixtures.Add(seamstress == body1.UserData ? contact.FixtureB : contact.FixtureA);
                 }
 
@@ -166,7 +166,7 @@ namespace RibbonsGameplay
                     sensorFixtures.Remove(seamstress == body1.UserData ? contact.FixtureB : contact.FixtureA);
                     if (sensorFixtures.Count == 0)
                     {
-                        seamstress.OffGround();
+                        seamstress.IsGrounded = false;
                     }
                 }
             }
