@@ -147,10 +147,53 @@ namespace RibbonsGameplay
 
         #region Methods
 
-        //includes initialize physics
-            public SeamstressObject(World w) : base(w)
-            {
+        /// <summary>
+        /// Create a new seamstress at the origin. Activate Physics.
+        /// </summary>
+        /// <param name="texture">Avatar texture</param>
+        public SeamstressObject(World w, Texture2D texture) : 
+            this(w, texture, Vector2.Zero, new Vector2((float)texture.Width, (float)texture.Height)) { }
+    
+        /// <summary>
+        /// Create a new seamstress object. Activate Physics.
+        /// </summary>
+        /// <param name="texture">Avatar texture</param>
+        /// <param name="pos">Location in world coordinates</param>
+        public SeamstressObject(World w, Texture2D texture, Vector2 pos) :
+            this(w, texture, pos, new Vector2((float)texture.Width, (float)texture.Height)) { }
 
+        /// <summary>
+        /// Create a new deamstress object. Activate Physics.
+        /// </summary>
+        /// <param name="texture">Avatar texture</param>
+        /// <param name="pos">Location in world coordinates</param>
+        /// <param name="dimension">Dimensions in world coordinates</param>
+        public SeamstressObject(World w, Texture2D texture, Vector2 pos, Vector2 dimension) : base(w, texture)
+            {
+                // Physics attributes
+                bodyType = BodyType.Dynamic;
+                density = DEFAULT_DENSITY;
+
+                // Gameplay attributes
+                isGrounded = false;
+                isJumping = false;
+
+                jumpCooldown = 0;    
+            
+                // Activate Physics
+                body.FixedRotation = true;
+
+                // Ground Sensor
+                // -------------
+                // We only allow the seamstress to jump when she's on the ground. 
+                // Double jumping is not allowed.
+                //
+                // To determine whether or not the seamstress is on the ground, 
+                // we create a thin sensor under her feet, which reports 
+                // collisions with the world but has no collision response.
+                Vector2 sensorCenter = new Vector2(0, dimension.Y / 2);
+                sensorFixture = FixtureFactory.AttachRectangle(dimension.X, SENSOR_HEIGHT, DEFAULT_DENSITY, sensorCenter, body, SensorName);
+                sensorFixture.IsSensor = true;
             }
 
             public override void Draw(GameCanvas g)
@@ -158,11 +201,12 @@ namespace RibbonsGameplay
 
             }
 
+        //remove soon
             public void OnGround()
             {
                 isGrounded = true;
             }
-
+        //remove soon
             public void OffGround()
             {
                 isGrounded = false;
