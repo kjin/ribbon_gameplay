@@ -29,8 +29,8 @@ namespace RibbonsGameplay
         {
 
             #region Constants
-            
-            public const float GRAVITY = 9.8f;
+
+            public const Vector2 GRAVITY = new Vector2(0f, 9.8f);
 
             #endregion
 
@@ -73,6 +73,8 @@ namespace RibbonsGameplay
             {
                 canvas.Initialize(this);
 
+                world = new World(GRAVITY);
+
                 RibbonObject ribbon = new RibbonObject();
                 SeamstressObject seamstress = new SeamstressObject();
 
@@ -113,6 +115,10 @@ namespace RibbonsGameplay
             {
                 inputController.ReadInput();
 
+                float dt = (float) gameTime.ElapsedGameTime.TotalSeconds;
+
+                world.Step(dt);
+
                 base.Update(gameTime);
             }
 
@@ -124,6 +130,11 @@ namespace RibbonsGameplay
             {
                 canvas.Reset();
 
+                foreach (Object o in objects)
+                {
+                    o.Draw(canvas);
+                }
+                
                 base.Draw(gameTime);
             }
             #endregion
