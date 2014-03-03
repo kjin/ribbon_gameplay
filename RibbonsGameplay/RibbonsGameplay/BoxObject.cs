@@ -13,13 +13,25 @@ namespace RibbonsGameplay
     {
 
         #region Fields
+
             // The geometric data.
             protected Body body;
             protected Fixture fixture;
+
         #endregion
 
-        public virtual void Draw(GameCanvas g)
-        {
-        }
+        #region Methods
+
+            public BoxObject(World w)
+            {
+
+            }
+
+            public virtual void Draw(GameCanvas g)
+            {
+
+            }
+
+        #endregion
     }
 }
