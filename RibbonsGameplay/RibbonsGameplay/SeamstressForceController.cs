@@ -17,8 +17,25 @@ namespace RibbonsGameplay
             private SeamstressObject seamstress;
         #endregion
 
-        #region Methods
+        #region Properties (READ-WRITE)
+            /// <summary>
+            /// The currently active avatar
+            /// </summary>
+            /// <remarks>
+            /// The controller can only affect one avatar at a time.
+            /// </remarks>
+            public SeamstressObject Seamstress
+            {
+                get { return seamstress; }
+                set { seamstress = value; }
+            }
+        #endregion
 
+        #region Methods
+            /// <summary>
+            /// Create a new controller for the given avatar
+            /// </summary>
+            /// <param name="s">The avatar</param>
             public SeamstressForceController(SeamstressObject s)
                 : base(ControllerType.AbstractForceController)
             {
