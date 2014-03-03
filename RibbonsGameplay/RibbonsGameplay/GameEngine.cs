@@ -18,6 +18,9 @@ using Microsoft.Xna.Framework.Media;
 //using Microsoft.Xna.Framework.Storage;
 using FarseerPhysics.Collision;
 using FarseerPhysics.Dynamics;
+using FarseerPhysics.Dynamics.Contacts;
+using FarseerPhysics.Dynamics.Joints;
+using FarseerPhysics.Factories;
 #endregion
 
 namespace RibbonsGameplay
@@ -48,6 +51,13 @@ namespace RibbonsGameplay
             // List of objects
             protected List<Object> objects;
 
+            // To process the sensor callback
+            protected HashSet<Fixture> sensorFixtures;
+
+            // The seamstress and ribbon
+            protected SeamstressObject seamstress;
+            protected RibbonObject ribbon;
+
             // Controllers for the seamstress and ribbon
             protected SeamstressForceController seamstressController;
             protected RibbonForceController ribbonController;
@@ -67,10 +77,11 @@ namespace RibbonsGameplay
                 content = new ContentManager(Services);
                 content.RootDirectory = "Content";
                 canvas = new GameCanvas(this);
+
             }
 
             /// <summary>
-            /// Preform any initialization necessary before running the game.  This
+            /// Perform any initialization necessary before running the game.  This
             /// includes both (preliminary) model and view creation.
             /// </summary>
             protected override void Initialize()
@@ -79,8 +90,11 @@ namespace RibbonsGameplay
 
                 world = new World(GRAVITY);
 
-                RibbonObject ribbon = new RibbonObject();
-                SeamstressObject seamstress = new SeamstressObject();
+                world.ContactManager.BeginContact += ContactStarted;
+                world.ContactManager.EndContact += ContactEnded;
+
+                RibbonObject ribbon = new RibbonObject(world);
+                SeamstressObject seamstress = new SeamstressObject(world);
 
                 seamstressController = new SeamstressForceController(seamstress);
                 world.AddController(seamstressController);
@@ -88,10 +102,10 @@ namespace RibbonsGameplay
                 ribbonController = new RibbonForceController(ribbon);
                 world.AddController(ribbonController);
 
-                inputController = new MainInputController(seamstress, ribbon);
-
                 objects.Add(ribbon);
                 objects.Add(seamstress);
+
+                inputController = new MainInputController(seamstress, ribbon);
 
                 base.Initialize();
             }
@@ -117,6 +131,46 @@ namespace RibbonsGameplay
             #endregion
 
             #region Game Loop
+
+            private bool ContactStarted(Contact contact)
+            {
+                Body body1 = contact.FixtureA.Body;
+                Body body2 = contact.FixtureB.Body;
+                var ud1 = contact.FixtureA.UserData;
+                var ud2 = contact.FixtureB.UserData;
+
+                // See if we have landed on the ground.
+                if ((seamstress.SensorName.Equals(ud2) && seamstress != body1.UserData) ||
+                   (seamstress.SensorName.Equals(ud1) && seamstress != body2.UserData))
+                {
+                    seamstress.OnGround();
+                    sensorFixtures.Add(seamstress == body1.UserData ? contact.FixtureB : contact.FixtureA);
+                }
+
+                return true; // keep the contact
+            }
+
+
+            private void ContactEnded(Contact contact)
+            {
+                Body body1 = contact.FixtureA.Body;
+                Body body2 = contact.FixtureB.Body;
+                var ud1 = contact.FixtureA.UserData;
+                var ud2 = contact.FixtureB.UserData;
+
+                // See if we are off the ground.
+                if ((seamstress.SensorName.Equals(ud2) && seamstress != body1.UserData) ||
+                   (seamstress.SensorName.Equals(ud1) && seamstress != body2.UserData))
+                {
+                    sensorFixtures.Remove(seamstress == body1.UserData ? contact.FixtureB : contact.FixtureA);
+                    if (sensorFixtures.Count == 0)
+                    {
+                        seamstress.OffGround();
+                    }
+                }
+            }
+
+
             /// <summary>
             /// Read user input, calculate physics, and update the models.
             /// </summary>
