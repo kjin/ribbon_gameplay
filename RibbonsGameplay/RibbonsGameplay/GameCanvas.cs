@@ -394,7 +394,7 @@ namespace RibbonsGameplay {
         /// </param>
         public void LoadContent(ContentManager content) {
             // Load sprite font
-            font = content.Load<SpriteFont>("Shared\\PhysicsFont");
+            //font = content.Load<SpriteFont>("Shared\\PhysicsFont");
         }
 
         /// <summary>

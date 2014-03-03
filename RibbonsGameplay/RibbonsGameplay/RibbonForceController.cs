@@ -30,7 +30,7 @@ namespace RibbonsGameplay
 
             public override void Update(float dt)
             {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
 
         #endregion

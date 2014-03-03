@@ -102,6 +102,7 @@ namespace RibbonsGameplay
                 ribbonController = new RibbonForceController(ribbon);
                 world.AddController(ribbonController);
 
+                objects = new List<Object>();
                 objects.Add(ribbon);
                 objects.Add(seamstress);
 
