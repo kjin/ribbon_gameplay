@@ -38,7 +38,7 @@ namespace RibbonsGameplay
 
         #region Methods
 
-            public SeamstressObject(World w)
+            public SeamstressObject(World w) : base(w)
             {
 
             }
