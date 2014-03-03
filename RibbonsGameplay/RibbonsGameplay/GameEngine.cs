@@ -62,6 +62,9 @@ namespace RibbonsGameplay
                 // Physics simulator
                 protected World world;
 
+            // Test texture
+            Texture2D texture;
+
             #endregion
 
             #region Initialization
@@ -115,6 +118,8 @@ namespace RibbonsGameplay
             {
                 // General view content
                 canvas.LoadContent(content);
+
+                texture = canvas.GetTexture("backgrounds/bluemt");
 
             }
 
@@ -192,10 +197,13 @@ namespace RibbonsGameplay
             {
                 canvas.Reset();
 
+                canvas.BeginSpritePass(BlendState.AlphaBlend);
+                canvas.DrawSprite(texture, Color.White, new Vector2(texture.Width / 2, texture.Height / 2));
                 foreach (Object o in objects)
                 {
                     o.Draw(canvas);
                 }
+                canvas.EndSpritePass();
                 
                 base.Draw(gameTime);
             }

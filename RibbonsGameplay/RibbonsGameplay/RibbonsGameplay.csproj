@@ -86,6 +86,7 @@
     <Compile Include="RibbonObject.cs" />
     <Compile Include="SeamstressForceController.cs" />
     <Compile Include="SeamstressObject.cs" />
+    <Compile Include="Texture2DManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
