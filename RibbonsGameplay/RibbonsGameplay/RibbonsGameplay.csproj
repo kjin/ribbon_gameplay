@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoxObject.cs" />
+    <Compile Include="RibbonForceController.cs" />
     <Compile Include="GameCanvas.cs" />
     <Compile Include="GameEngine.cs" />
     <Compile Include="MainInputController.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="RibbonObject.cs" />
+    <Compile Include="SeamstressForceController.cs" />
     <Compile Include="SeamstressObject.cs" />
   </ItemGroup>
   <ItemGroup>

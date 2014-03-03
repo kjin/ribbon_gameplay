@@ -48,6 +48,10 @@ namespace RibbonsGameplay
             // List of objects
             protected List<Object> objects;
 
+            // Controllers for the seamstress and ribbon
+            protected SeamstressForceController seamstressController;
+            protected RibbonForceController ribbonController;
+
             // Physics simulator
             protected World world;
 
@@ -77,6 +81,12 @@ namespace RibbonsGameplay
 
                 RibbonObject ribbon = new RibbonObject();
                 SeamstressObject seamstress = new SeamstressObject();
+
+                seamstressController = new SeamstressForceController(seamstress);
+                world.AddController(seamstressController);
+
+                ribbonController = new RibbonForceController(ribbon);
+                world.AddController(ribbonController);
 
                 inputController = new MainInputController(seamstress, ribbon);
 
