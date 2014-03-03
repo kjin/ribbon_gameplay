@@ -39,6 +39,10 @@ namespace RibbonsGameplay
 
             // Cooldown constants
             private const int JUMP_COOLDOWN = 30;
+
+            // textures
+            protected Texture2D standing;
+            protected Texture2D jumping;
         #endregion
 
         #region Properties
@@ -151,16 +155,16 @@ namespace RibbonsGameplay
         /// Create a new seamstress at the origin. Activate Physics.
         /// </summary>
         /// <param name="texture">Avatar texture</param>
-        public SeamstressObject(World w, Texture2D texture) : 
-            this(w, texture, Vector2.Zero, new Vector2((float)texture.Width, (float)texture.Height)) { }
+        public SeamstressObject(World w, Texture2D standing, Texture2D jumping) : 
+            this(w, standing, jumping, Vector2.Zero, new Vector2((float)standing.Width, (float)standing.Height)) { }
     
         /// <summary>
         /// Create a new seamstress object. Activate Physics.
         /// </summary>
         /// <param name="texture">Avatar texture</param>
         /// <param name="pos">Location in world coordinates</param>
-        public SeamstressObject(World w, Texture2D texture, Vector2 pos) :
-            this(w, texture, pos, new Vector2((float)texture.Width, (float)texture.Height)) { }
+        public SeamstressObject(World w, Texture2D standing, Texture2D jumping, Vector2 pos) :
+            this(w, standing, jumping, pos, new Vector2((float)standing.Width, (float)standing.Height)) { }
 
         /// <summary>
         /// Create a new deamstress object. Activate Physics.
@@ -168,8 +172,12 @@ namespace RibbonsGameplay
         /// <param name="texture">Avatar texture</param>
         /// <param name="pos">Location in world coordinates</param>
         /// <param name="dimension">Dimensions in world coordinates</param>
-        public SeamstressObject(World w, Texture2D texture, Vector2 pos, Vector2 dimension) : base(w, texture)
+        public SeamstressObject(World w, Texture2D standing, Texture2D jumping, Vector2 pos, Vector2 dimension)
+            : base(w, standing)
             {
+                this.standing = standing;
+                this.jumping = jumping;
+            
                 // Physics attributes
                 bodyType = BodyType.Dynamic;
                 density = DEFAULT_DENSITY;
