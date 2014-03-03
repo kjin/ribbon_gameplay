@@ -1,12 +1,9 @@
-﻿using System;
+﻿#region Using Statements
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-#region Using Statements
-using System;
 using System.Diagnostics;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -33,37 +30,37 @@ namespace RibbonsGameplay
 
             #region Constants
 
-            public const float GRAVITY = 9.8f;
+                public const float GRAVITY = 9.8f;
 
             #endregion
 
             #region Fields
 
-            // Used to draw the game onto the screen (VIEW CLASS)
-            protected GameCanvas canvas;
+                // Used to draw the game onto the screen (VIEW CLASS)
+                protected GameCanvas canvas;
 
-            // Used to load the sounds and graphics (CONTROLLER CLASS)
-            protected ContentManager content;
+                // Used to load the sounds and graphics (CONTROLLER CLASS)
+                protected ContentManager content;
 
-            // Read input from keyboard or game pad (CONTROLLER CLASSES)
-            protected MainInputController inputController;
+                // Read input from keyboard or game pad (CONTROLLER CLASSES)
+                protected MainInputController inputController;
 
-            // List of objects
-            protected List<Object> objects;
+                // List of objects
+                protected List<Object> objects;
 
-            // To process the sensor callback
-            protected HashSet<Fixture> sensorFixtures;
+                // To process the sensor callback
+                protected HashSet<Fixture> sensorFixtures;
 
-            // The seamstress and ribbon
-            protected SeamstressObject seamstress;
-            protected RibbonObject ribbon;
+                // The seamstress and ribbon
+                protected SeamstressObject seamstress;
+                protected RibbonObject ribbon;
 
-            // Controllers for the seamstress and ribbon
-            protected SeamstressForceController seamstressController;
-            protected RibbonForceController ribbonController;
+                // Controllers for the seamstress and ribbon
+                protected SeamstressForceController seamstressController;
+                protected RibbonForceController ribbonController;
 
-            // Physics simulator
-            protected World world;
+                // Physics simulator
+                protected World world;
 
             // Test texture
             Texture2D texture;
@@ -97,7 +94,7 @@ namespace RibbonsGameplay
                 world.ContactManager.EndContact += ContactEnded;
 
                 RibbonObject ribbon = new RibbonObject(world);
-                SeamstressObject seamstress = new SeamstressObject(world);
+                SeamstressObject seamstress = new SeamstressObject(world,null,null);
 
                 seamstressController = new SeamstressForceController(seamstress);
                 world.AddController(seamstressController);
