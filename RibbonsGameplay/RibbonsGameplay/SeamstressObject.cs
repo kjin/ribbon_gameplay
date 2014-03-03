@@ -154,9 +154,6 @@ namespace RibbonsGameplay
         /// <summary>
         /// Create a new seamstress object. Activate Physics.
         /// </summary>
-        /// <param name="texture">Avatar texture</param>
-        /// <param name="pos">Location in world coordinates</param>
-        /// <param name="dimension">Dimensions in world coordinates</param>
         public SeamstressObject() : base()
             {
                 // Physics attributes
@@ -177,6 +174,8 @@ namespace RibbonsGameplay
             /// Override to add a sensor fixture to this body.
             /// </remarks>
             /// <param name="world">Farseer world that stores body</param>
+            /// <param name="standing">Standing texture</param>
+            /// <param name="jumping">Jumping texture</param>
             /// <returns><c>true</c> if object allocation succeeded</returns>
             public bool ActivatePhysics(World world, Texture2D standing, Texture2D jumping)
             {
