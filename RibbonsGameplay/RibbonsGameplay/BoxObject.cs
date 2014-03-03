@@ -62,6 +62,7 @@ namespace RibbonsGameplay
             /// not this one, for specific physics objects.
             /// </remarks>
             /// <param name="world">Farseer world that stores body</param>
+            /// <param name="texture">Texture for physics object sizing</param>
             /// <returns><c>true</c> if object allocation succeeded</returns>
             public virtual bool ActivatePhysics(World world, Texture2D texture)
             {
