@@ -338,7 +338,7 @@ namespace RibbonsGameplay {
         /// <remarks>
         /// Note that we initialize the graphics device manager as soon
         /// as this canvas is constructed. However, we do NOT create a
-        /// new SpriteBatch yet.  We have to wait for the graphics manager 
+        /// new SpriteBatch yet.  We have to wait for the graphics manager
         /// to initialize before we do that. 
         /// </remarks>
         /// <param name="game">The root game engine for this canvas</param>
