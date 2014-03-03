@@ -8,7 +8,7 @@ using FarseerPhysics.Dynamics;
 
 namespace RibbonsGameplay
 {
-    class RibbonObject : Object
+    public class RibbonObject : Object
     {
 
         public RibbonObject(World w)

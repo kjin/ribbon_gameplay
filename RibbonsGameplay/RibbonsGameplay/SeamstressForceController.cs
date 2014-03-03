@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace RibbonsGameplay
 {
-    class SeamstressForceController : Controller
+    public class SeamstressForceController : Controller
     {
 
         #region Fields

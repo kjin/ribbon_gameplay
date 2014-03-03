@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RibbonsGameplay
 {
-    interface Object
+    public interface Object
     {
         void Draw(GameCanvas gameCanvas);
 

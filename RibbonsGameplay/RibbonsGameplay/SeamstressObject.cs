@@ -8,7 +8,7 @@ using FarseerPhysics.Factories;
 
 namespace RibbonsGameplay
 {
-    class SeamstressObject : BoxObject
+    public class SeamstressObject : BoxObject
     {
 
         #region Constants

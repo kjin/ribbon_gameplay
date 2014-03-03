@@ -9,7 +9,7 @@ using FarseerPhysics.Factories;
 
 namespace RibbonsGameplay
 {
-    class BoxObject : Object
+    public class BoxObject : Object
     {
 
         #region Fields

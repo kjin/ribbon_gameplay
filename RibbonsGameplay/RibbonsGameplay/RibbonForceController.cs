@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace RibbonsGameplay
 {
-    class RibbonForceController : Controller
+    public class RibbonForceController : Controller
     {
 
         #region Fields

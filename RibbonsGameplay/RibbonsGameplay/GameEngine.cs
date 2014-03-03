@@ -33,7 +33,7 @@ namespace RibbonsGameplay
 
             #region Constants
 
-            public const Vector2 GRAVITY = new Vector2(0f, 9.8f);
+            public const float GRAVITY = 9.8f;
 
             #endregion
 
@@ -88,7 +88,7 @@ namespace RibbonsGameplay
             {
                 canvas.Initialize(this);
 
-                world = new World(GRAVITY);
+                world = new World(new Vector2(0,GRAVITY));
 
                 world.ContactManager.BeginContact += ContactStarted;
                 world.ContactManager.EndContact += ContactEnded;
