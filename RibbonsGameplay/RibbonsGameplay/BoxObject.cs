@@ -44,6 +44,15 @@ namespace RibbonsGameplay
 
         #endregion
 
+        #region Properties
+            public virtual Vector2 Position
+            {
+                get { return position; }
+                set { position = value; }
+            }
+        #endregion
+
+
         #region Methods
             /// <summary>
             /// Create a new box at the origin. Don't forget to add the texture and activate physics.
