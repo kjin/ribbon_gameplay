@@ -18,6 +18,8 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Dynamics.Joints;
 using FarseerPhysics.Factories;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 #endregion
 
 namespace RibbonsGameplay
@@ -93,8 +95,8 @@ namespace RibbonsGameplay
                 world.ContactManager.BeginContact += ContactStarted;
                 world.ContactManager.EndContact += ContactEnded;
 
-                RibbonObject ribbon = new RibbonObject(world);
-                SeamstressObject seamstress = new SeamstressObject(world,null,null);
+                RibbonObject ribbon = new RibbonObject();
+                SeamstressObject seamstress = new SeamstressObject();
 
                 seamstressController = new SeamstressForceController(seamstress);
                 world.AddController(seamstressController);
@@ -119,7 +121,8 @@ namespace RibbonsGameplay
                 // General view content
                 canvas.LoadContent(content);
 
-                texture = canvas.GetTexture("backgrounds/bluemt");
+                Texture2D spritejump = canvas.GetTexture("spritejump.jpg");
+                Texture2D spritestanding = canvas.GetTexture("standing.jpg");
 
             }
 
