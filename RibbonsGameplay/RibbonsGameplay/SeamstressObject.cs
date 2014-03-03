@@ -152,32 +152,13 @@ namespace RibbonsGameplay
         #region Methods
 
         /// <summary>
-        /// Create a new seamstress at the origin. Activate Physics.
-        /// </summary>
-        /// <param name="texture">Avatar texture</param>
-        public SeamstressObject(World w, Texture2D standing, Texture2D jumping) : 
-            this(w, standing, jumping, Vector2.Zero, new Vector2((float)standing.Width, (float)standing.Height)) { }
-    
-        /// <summary>
-        /// Create a new seamstress object. Activate Physics.
-        /// </summary>
-        /// <param name="texture">Avatar texture</param>
-        /// <param name="pos">Location in world coordinates</param>
-        public SeamstressObject(World w, Texture2D standing, Texture2D jumping, Vector2 pos) :
-            this(w, standing, jumping, pos, new Vector2((float)standing.Width, (float)standing.Height)) { }
-
-        /// <summary>
         /// Create a new seamstress object. Activate Physics.
         /// </summary>
         /// <param name="texture">Avatar texture</param>
         /// <param name="pos">Location in world coordinates</param>
         /// <param name="dimension">Dimensions in world coordinates</param>
-        public SeamstressObject(World w, Texture2D standing, Texture2D jumping, Vector2 pos, Vector2 dimension)
-            : base(w, standing)
+        public SeamstressObject() : base()
             {
-                this.standing = standing;
-                this.jumping = jumping;
-            
                 // Physics attributes
                 bodyType = BodyType.Dynamic;
                 density = DEFAULT_DENSITY;
@@ -186,22 +167,39 @@ namespace RibbonsGameplay
                 isGrounded = false;
                 isJumping = false;
 
-                jumpCooldown = 0;    
-            
-                // Activate Physics
+                jumpCooldown = 0;
+            }
+
+            /// <summary>
+            /// Creates the physics Body for this object, adding it to the world.
+            /// </summary>
+            /// <remarks>
+            /// Override to add a sensor fixture to this body.
+            /// </remarks>
+            /// <param name="world">Farseer world that stores body</param>
+            /// <returns><c>true</c> if object allocation succeeded</returns>
+            public bool ActivatePhysics(World world, Texture2D standing, Texture2D jumping)
+            {
+                this.standing = standing;
+                this.jumping = jumping;
+                
+                // create the box from our superclass
+                bool success = base.ActivatePhysics(world, standing);
                 body.FixedRotation = true;
 
                 // Ground Sensor
                 // -------------
-                // We only allow the seamstress to jump when she's on the ground. 
+                // We only allow the dude to jump when he's on the ground. 
                 // Double jumping is not allowed.
                 //
-                // To determine whether or not the seamstress is on the ground, 
-                // we create a thin sensor under her feet, which reports 
+                // To determine whether or not the dude is on the ground, 
+                // we create a thin sensor under his feet, which reports 
                 // collisions with the world but has no collision response.
                 Vector2 sensorCenter = new Vector2(0, dimension.Y / 2);
                 sensorFixture = FixtureFactory.AttachRectangle(dimension.X, SENSOR_HEIGHT, DEFAULT_DENSITY, sensorCenter, body, SensorName);
                 sensorFixture.IsSensor = true;
+
+                return success;
             }
 
             public override void Draw(GameCanvas g)

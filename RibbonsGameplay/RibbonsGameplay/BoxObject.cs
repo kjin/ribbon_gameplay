@@ -26,8 +26,6 @@ namespace RibbonsGameplay
             protected Vector2 scale;
             protected Texture2D texture;
 
-            private World world;
-
             // Control the type of Farseer physics
             protected BodyType bodyType = BodyType.Dynamic;
 
@@ -47,39 +45,31 @@ namespace RibbonsGameplay
         #endregion
 
         #region Methods
-
             /// <summary>
-            /// Create a new box at the origin.
+            /// Create a new box at the origin. Don't forget to add the texture and activate physics.
             /// </summary>
-            /// <param name="world">World object</param>
-            /// <param name="texture">Object texture</param>
-            public BoxObject(World w, Texture2D texture) :
-                this(w, texture, Vector2.Zero, new Vector2((float)texture.Width, (float)texture.Height)) { }
-
+            public BoxObject()
+            {
+                this.position = Vector2.Zero;
+            }
+            
             /// <summary>
-            /// Create a new box object
+            /// Creates the physics Body for this object, adding it to the world.
             /// </summary>
-            /// <param name="world">World object</param>
-            /// <param name="texture">Object texture</param>
-            /// <param name="pos">Location in world coordinates</param>
-            public BoxObject(World w, Texture2D texture, Vector2 pos) :
-                this(w, texture, pos, new Vector2((float)texture.Width, (float)texture.Height)) { }
-
-            /// <summary>
-            /// Create a new box object
-            /// </summary>
-            /// <param name="world">World object</param>
-            /// <param name="texture">Object texture</param>
-            /// <param name="pos">Location in world coordinates</param>
-            /// <param name="dimension">Dimensions in world coordinates</param>
-            public BoxObject(World w, Texture2D texture, Vector2 pos, Vector2 dimension)
+            /// <remarks>
+            /// This method depends on the internal method CreateShape() for
+            /// the specific body allocation. You should override that method,
+            /// not this one, for specific physics objects.
+            /// </remarks>
+            /// <param name="world">Farseer world that stores body</param>
+            /// <returns><c>true</c> if object allocation succeeded</returns>
+            public virtual bool ActivatePhysics(World world, Texture2D texture)
             {
                 // Initialize
-                this.dimension = dimension;
-                scale = new Vector2(dimension.X / texture.Width, dimension.Y / texture.Height);
-                this.world = w;
-
-                // Activate Physics
+                this.texture = texture;
+                this.dimension = new Vector2((float)texture.Width, (float)texture.Height);
+                this.scale = new Vector2(dimension.X / texture.Width, dimension.Y / texture.Height);
+                
                 // Make a body, if possible
                 body = BodyFactory.CreateBody(world, this);
 
@@ -91,7 +81,9 @@ namespace RibbonsGameplay
                     body.LinearVelocity = linearVelocity;
                     body.Rotation = rotation;
                     CreateShape();
+                    isActive = true;
                 }
+                return isActive;
             }
 
             /// <summary>
