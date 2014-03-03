@@ -59,7 +59,7 @@ namespace RibbonsGameplay
             /// </summary>
             public BoxObject()
             {
-                this.position = Vector2.Zero;
+                this.position = new Vector2(50.0f, 50.0f);
             }
             
             /// <summary>
