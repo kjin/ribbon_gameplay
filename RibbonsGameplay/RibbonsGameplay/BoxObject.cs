@@ -116,9 +116,13 @@ namespace RibbonsGameplay
                 isDirty = false;
             }
 
+            /// <summary>
+            /// Draws the physics object.
+            /// </summary>
+            /// <param name="canvas">Drawing context</param>
             public virtual void Draw(GameCanvas g)
             {
-
+                g.DrawSprite(texture, Color.White, position, scale, rotation);
             }
 
         #endregion

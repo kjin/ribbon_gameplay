@@ -206,7 +206,9 @@ namespace RibbonsGameplay
 
             public override void Draw(GameCanvas g)
             {
-
+                SpriteEffects flip = facingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                texture = isJumping ? jumping : standing;
+                g.DrawSprite(texture, Color.White, position, scale, rotation, flip);
             }
 
         //remove soon
