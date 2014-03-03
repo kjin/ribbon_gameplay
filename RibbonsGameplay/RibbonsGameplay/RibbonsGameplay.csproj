@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoxObject.cs" />
+    <Compile Include="Gradient.cs" />
     <Compile Include="RibbonForceController.cs" />
     <Compile Include="GameCanvas.cs" />
     <Compile Include="GameEngine.cs" />
@@ -93,7 +94,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Programming labs\Lab 4\XNAPhysics\Farseer Physics Engine 3.5\Farseer Physics XNA.csproj">
+    <ProjectReference Include="..\Farseer Physics Engine 3.5\Farseer Physics XNA.csproj">
       <Project>{0a850700-1abb-4288-a391-6726b90ebeb9}</Project>
       <Name>Farseer Physics XNA</Name>
     </ProjectReference>
