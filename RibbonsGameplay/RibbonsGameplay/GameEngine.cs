@@ -66,6 +66,7 @@ namespace RibbonsGameplay
 
                 // Test texture
                 Texture2D background;
+                protected Texture2D boxtext;
 
                 //Textures
                 Texture2D ribbon_segment;
@@ -117,9 +118,19 @@ namespace RibbonsGameplay
                 objects.Add(ribbon);
                 objects.Add(seamstress);
 
-                inputController = new MainInputController(seamstress, ribbon);
+                inputController = new MainInputController(seamstress, ribbon);               
 
                 base.Initialize();
+            }
+
+            private void MakeLevel()
+            {
+                BoxObject testbox = new BoxObject();
+
+                testbox.ActivatePhysics(world, boxtext);
+                testbox.Position = new Vector2(400, 300);
+                testbox.BodyType = BodyType.Static;
+                objects.Add(testbox);
             }
 
             /// <summary>
@@ -132,10 +143,14 @@ namespace RibbonsGameplay
 
                 Texture2D spritejump = canvas.GetTexture("spritejump");
                 Texture2D spritestanding = canvas.GetTexture("standing");
-                seamstress.ActivatePhysics(world, spritestanding, spritejump);
-
-
+                Texture2D spritefalling = canvas.GetTexture("spritefall");
+                Texture2D spritewalking = canvas.GetTexture("walkfstrip");
+                seamstress.ActivatePhysics(world, spritestanding, spritejump, spritefalling, spritewalking);
                 background = canvas.GetTexture("backgrounds/bluemt");
+
+                boxtext = canvas.GetTexture("64x64platform");
+
+                MakeLevel();
             }
 
             /// <summary>
@@ -200,6 +215,7 @@ namespace RibbonsGameplay
                 float dt = (float) gameTime.ElapsedGameTime.TotalSeconds;
 
                 world.Step(dt);
+                seamstress.Update(dt);
 
                 base.Update(gameTime);
             }

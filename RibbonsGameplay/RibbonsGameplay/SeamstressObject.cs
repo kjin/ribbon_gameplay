@@ -40,9 +40,8 @@ namespace RibbonsGameplay
             // Cooldown constants
             private const int JUMP_COOLDOWN = 30;
 
-            // textures
-            protected Texture2D standing;
-            protected Texture2D jumping;
+            protected const int MAX_FRAME = 4;
+            protected const int FRAME_SPEED = 10;
         #endregion
 
         #region Properties
@@ -136,6 +135,10 @@ namespace RibbonsGameplay
         #endregion
 
         #region Fields
+
+            protected int frame;
+            protected int frameSwitch;
+        
             // Cooldown for seamstress abilities
             private float movement;
             private bool facingRight;
@@ -146,7 +149,13 @@ namespace RibbonsGameplay
             // Ground sensor to represent feet
             private Fixture sensorFixture;
             private bool isGrounded;
-
+            
+            // textures
+            // textures
+            protected Texture2D standing;
+            protected Texture2D jumping;
+            protected Texture2D falling;
+            protected Texture2D walking;
         #endregion
 
         #region Methods
@@ -165,6 +174,8 @@ namespace RibbonsGameplay
                 isJumping = false;
 
                 jumpCooldown = 0;
+                frame = 0;
+                frameSwitch = 0;
             }
 
             /// <summary>
@@ -177,10 +188,12 @@ namespace RibbonsGameplay
             /// <param name="standing">Standing texture</param>
             /// <param name="jumping">Jumping texture</param>
             /// <returns><c>true</c> if object allocation succeeded</returns>
-            public bool ActivatePhysics(World world, Texture2D standing, Texture2D jumping)
+            public bool ActivatePhysics(World world, Texture2D standing, Texture2D jumping, Texture2D falling, Texture2D walking)
             {
                 this.standing = standing;
                 this.jumping = jumping;
+                this.falling = falling;
+                this.walking = walking;
                 
                 // create the box from our superclass
                 bool success = base.ActivatePhysics(world, standing);
@@ -217,14 +230,35 @@ namespace RibbonsGameplay
                     jumpCooldown = Math.Max(0, jumpCooldown - 1);
                 }
 
+                frameSwitch++;
+                if (frameSwitch > FRAME_SPEED)
+                {
+                    frame++;
+                    frameSwitch = 0;
+                }
+                if (frame >= MAX_FRAME) frame = 0;
+
                 base.Update(dt);
             }
 
             public override void Draw(GameCanvas g)
             {
                 SpriteEffects flip = facingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                texture = isJumping ? jumping : standing;
-                g.DrawSprite(texture, Color.White, body.Position, scale, rotation, flip);
+
+                // Determine what to draw, then do it
+                if (isGrounded && body.LinearVelocity.Length() != 0.0f)
+                {
+                    texture = walking;
+                    g.DrawSprite(texture, Color.White, body.Position, scale, rotation, frame, MAX_FRAME, flip);
+                }
+                else
+                {
+                    if (body.LinearVelocity.Length() == 0.0f) texture = standing;
+                    if (body.LinearVelocity.Y < 0.0f) texture = jumping;
+                    if (body.LinearVelocity.Y > 0.0f) texture = falling;
+
+                    g.DrawSprite(texture, Color.White, body.Position, scale, rotation, flip);
+                }
             }
 
         //remove soon
