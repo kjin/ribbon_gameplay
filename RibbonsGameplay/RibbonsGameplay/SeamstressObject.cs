@@ -34,9 +34,11 @@ namespace RibbonsGameplay
 
             // Movement constants
             private const float SEAMSTRESS_FORCE = 20.0f;
-            private const float SEAMSTRESS_DAMPING = 30.0f;
             private const float SEAMSTRESS_MAXSPEED = 6.0f;
             public const float SEAMSTRESS_JUMPFORCE = -7.0f;
+
+            private const float SEAMSTRESS_AERIALDAMPING = 2.5f;
+            private const float SEAMSTRESS_GROUNDDAMPING = 30.0f;
 
             // Cooldown constants
             private const int JUMP_COOLDOWN = 30;
@@ -105,9 +107,17 @@ namespace RibbonsGameplay
             /// <summary>
             /// How hard the brakes are applied to get a SEAMSTRESS to stop moving
             /// </summary>
-            public float Damping
+            public float AerialDamping
             {
-                get { return SEAMSTRESS_DAMPING; }
+                get { return SEAMSTRESS_AERIALDAMPING; }
+            }
+
+            /// <summary>
+            /// How hard the brakes are applied to get a SEAMSTRESS to stop moving
+            /// </summary>
+            public float GroundDamping
+            {
+                get { return SEAMSTRESS_GROUNDDAMPING; }
             }
 
             /// <summary>

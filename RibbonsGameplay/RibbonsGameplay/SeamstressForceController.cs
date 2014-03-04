@@ -59,8 +59,16 @@ namespace RibbonsGameplay
                 // Don't want to be moving. Damp out player motion
                 if (moveForce.X == 0f)
                 {
-                    Vector2 dampForce = new Vector2(-seamstress.Damping * velocity.X, 0);
-                    seamstress.Body.ApplyForce(dampForce, seamstress.Position);
+                    if (seamstress.IsGrounded)
+                    {
+                        Vector2 dampForce = new Vector2(-seamstress.GroundDamping * velocity.X, 0);
+                        seamstress.Body.ApplyForce(dampForce, seamstress.Position);
+                    }
+                    else
+                    {
+                        Vector2 dampForce = new Vector2(-seamstress.AerialDamping * velocity.X, 0);
+                        seamstress.Body.ApplyForce(dampForce, seamstress.Position);
+                    }
                 }
 
                 // Velocity too high, clamp it
