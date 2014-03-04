@@ -131,33 +131,23 @@ namespace RibbonsGameplay
                 base.Initialize();
             }
 
+            private void MakeBlock(Texture2D boxType, Vector2 position, bool ignore = false)
+            {
+                BoxObject box = new BoxObject();
+                box.ActivatePhysics(world, boxType, scale);
+                box.Position = position;
+                box.BodyType = BodyType.Static;
+                if (ignore)
+                    box.Body.IgnoreCollisionWith(seamstress.Body);
+                objects.Add(box);
+            }
+
             private void MakeLevel()
             {
-                BoxObject testbox = new BoxObject();
-
-                testbox.ActivatePhysics(world, boxtext, scale);
-                testbox.Position = new Vector2(2, 7);
-                testbox.BodyType = BodyType.Static;
-                objects.Add(testbox);
-
-                BoxObject box1 = new BoxObject();
-                box1.ActivatePhysics(world, tallflatbox_tex, scale);
-                box1.Position = new Vector2(14, 8);
-                box1.BodyType = BodyType.Static;
-                objects.Add(box1);
-
-                BoxObject saveRock = new BoxObject();
-                saveRock.ActivatePhysics(world, saverock, scale);
-                saveRock.Position = new Vector2(20, 20);
-                saveRock.BodyType = BodyType.Static;
-                saveRock.Body.IgnoreCollisionWith(seamstress.Body);
-                objects.Add(saveRock);
-
-                BoxObject savebox = new BoxObject();
-                savebox.ActivatePhysics(world, shortflatbox_tex, scale);
-                savebox.Position = new Vector2(20, 21.4f);
-                savebox.BodyType = BodyType.Static;
-                objects.Add(savebox);
+                MakeBlock(boxtext, new Vector2(2, 7));
+                MakeBlock(tallflatbox_tex, new Vector2(14, 8));
+                MakeBlock(shortflatbox_tex, new Vector2(20, 21.4f));
+                MakeBlock(saverock, new Vector2(20, 20), true);
             }
 
             /// <summary>
