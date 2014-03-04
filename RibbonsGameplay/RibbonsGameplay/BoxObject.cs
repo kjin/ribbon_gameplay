@@ -317,7 +317,7 @@ namespace RibbonsGameplay
             /// </summary>
             public BoxObject()
             {
-                this.position = new Vector2(2.0f, 2.0f);
+                this.position = new Vector2(6.0f, 2.0f);
             }
             
             /// <summary>

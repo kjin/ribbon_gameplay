@@ -25,6 +25,7 @@ namespace RibbonsGameplay
         Fixture fixture;
 
         public BoxObject box;
+        public BoxObject box2;
         List<Hinge> hinges;
 
         float[] stops;
@@ -38,10 +39,10 @@ namespace RibbonsGameplay
         {
             points = new List<Vector2>();
 
-            points.Add(new Vector2(4, 5));
+            points.Add(new Vector2(4, -1));
             points.Add(new Vector2(4, 22));
             points.Add(new Vector2(30, 22));
-            points.Add(new Vector2(30, 5));
+            points.Add(new Vector2(30, -1));
 
             stops = new float[4];
 
@@ -86,8 +87,29 @@ namespace RibbonsGameplay
             RevoluteJoint j1 = JointFactory.CreateRevoluteJoint(world, box.Body, attach1, new Vector2(-1, -1));
             RevoluteJoint j2 = JointFactory.CreateRevoluteJoint(world, box.Body, attach2, new Vector2(-1, 1));
 
-            hinges.Add(new Hinge(attach1,3));
-            hinges.Add(new Hinge(attach2,5));
+            hinges.Add(new Hinge(attach1,8));
+            hinges.Add(new Hinge(attach2,10));
+
+            Body attach3 = BodyFactory.CreateBody(world);
+            attach3.BodyType = BodyType.Kinematic;
+            attach3.Position = new Vector2(4, 12);
+
+
+            Body attach4 = BodyFactory.CreateBody(world);
+            attach4.BodyType = BodyType.Kinematic;
+            attach4.Position = new Vector2(4, 14);
+
+            box2 = new BoxObject();
+            box2.Position = new Vector2(5, 17);
+            box2.BodyType = BodyType.Dynamic;
+            box2.ActivatePhysics(world, tex, 32f);
+            box2.Body.UserData = box2;
+            box2.Body.IgnoreCollisionWith(body);
+            RevoluteJoint j3 = JointFactory.CreateRevoluteJoint(world, box2.Body, attach3, new Vector2(-1, -1));
+            RevoluteJoint j4 = JointFactory.CreateRevoluteJoint(world, box2.Body, attach4, new Vector2(-1, 1));
+
+            hinges.Add(new Hinge(attach3, 17));
+            hinges.Add(new Hinge(attach4, 19));
 
         }
 
@@ -100,6 +122,7 @@ namespace RibbonsGameplay
             }
 
             box.Draw(g);
+            box2.Draw(g);
 
         }
 
