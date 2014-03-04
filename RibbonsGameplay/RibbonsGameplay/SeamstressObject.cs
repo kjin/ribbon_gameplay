@@ -33,9 +33,9 @@ namespace RibbonsGameplay
             private const float DEFAULT_DENSITY = 1.0f;
 
             // Movement constants
-            private const float SEAMSTRESS_FORCE = 20.0f;
+            private const float SEAMSTRESS_FORCE = 2000000.0f;
             private const float SEAMSTRESS_DAMPING = 10.0f;
-            private const float SEAMSTRESS_MAXSPEED = 6.0f;
+            private const float SEAMSTRESS_MAXSPEED = 600.0f;
 
             // Cooldown constants
             private const int JUMP_COOLDOWN = 30;
@@ -224,7 +224,7 @@ namespace RibbonsGameplay
             {
                 SpriteEffects flip = facingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                 texture = isJumping ? jumping : standing;
-                g.DrawSprite(texture, Color.White, position, scale, rotation, flip);
+                g.DrawSprite(texture, Color.White, body.Position, scale, rotation, flip);
             }
 
         //remove soon
