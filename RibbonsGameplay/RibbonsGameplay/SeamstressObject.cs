@@ -33,9 +33,9 @@ namespace RibbonsGameplay
             private const float DEFAULT_DENSITY = 1.0f;
 
             // Movement constants
-            private const float SEAMSTRESS_FORCE = 2000000.0f;
-            private const float SEAMSTRESS_DAMPING = 10.0f;
-            private const float SEAMSTRESS_MAXSPEED = 600.0f;
+            private const float SEAMSTRESS_FORCE = 20.0f;
+            private const float SEAMSTRESS_DAMPING = 30.0f;
+            private const float SEAMSTRESS_MAXSPEED = 6.0f;
 
             // Cooldown constants
             private const int JUMP_COOLDOWN = 30;
@@ -188,7 +188,7 @@ namespace RibbonsGameplay
             /// <param name="standing">Standing texture</param>
             /// <param name="jumping">Jumping texture</param>
             /// <returns><c>true</c> if object allocation succeeded</returns>
-            public bool ActivatePhysics(World world, Texture2D standing, Texture2D jumping, Texture2D falling, Texture2D walking)
+            public bool ActivatePhysics(World world, Texture2D standing, Texture2D jumping, Texture2D falling, Texture2D walking, float scale)
             {
                 this.standing = standing;
                 this.jumping = jumping;
@@ -196,7 +196,7 @@ namespace RibbonsGameplay
                 this.walking = walking;
                 
                 // create the box from our superclass
-                bool success = base.ActivatePhysics(world, standing);
+                bool success = base.ActivatePhysics(world, standing, scale);
                 body.FixedRotation = true;
 
                 // Ground Sensor
@@ -246,19 +246,20 @@ namespace RibbonsGameplay
                 SpriteEffects flip = facingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
                 // Determine what to draw, then do it
-                if (isGrounded && body.LinearVelocity.Length() != 0.0f)
+                if (isGrounded && body.LinearVelocity.Length() > 0.1f)
                 {
                     texture = walking;
-                    g.DrawSprite(texture, Color.White, body.Position, scale, rotation, frame, MAX_FRAME, flip);
+                    g.DrawSprite(texture, Color.White, Position, scale, rotation, frame, MAX_FRAME, flip);
                 }
                 else
                 {
-                    if (body.LinearVelocity.Length() == 0.0f) texture = standing;
+                    texture = standing;
                     if (body.LinearVelocity.Y < 0.0f) texture = jumping;
                     if (body.LinearVelocity.Y > 0.0f) texture = falling;
 
-                    g.DrawSprite(texture, Color.White, body.Position, scale, rotation, flip);
+                    g.DrawSprite(texture, Color.White, Position, scale, rotation, flip);
                 }
+                Console.WriteLine(Position);
             }
 
         //remove soon

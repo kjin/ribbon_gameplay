@@ -16,7 +16,7 @@ namespace RibbonsGameplay
 
         }
 
-        public bool ActivatePhysics(World world)
+        public bool ActivatePhysics(World world, float scale)
         {
 
             //add to world
