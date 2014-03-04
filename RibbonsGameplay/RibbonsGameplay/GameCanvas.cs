@@ -400,7 +400,7 @@ namespace RibbonsGameplay {
             // Load sprite font
             //font = content.Load<SpriteFont>("Shared\\PhysicsFont");
 
-            AddTexture("spritejump", "standing", "ribbon_segment", "spritefall", "walkfstrip", "64x64platform");
+            AddTexture("spritejump", "standing", "ribbon_segment", "spritefall", "walkfstrip", "64x64platform","64x64thimbs","64x128platform","saverock","128x32platform","128x64platform","64x128hookglass");
             AddTexture("backgrounds/bluemt");
             textureManager.LoadContent(content);
         }

@@ -1,4 +1,4 @@
-#region Using Statements
+﻿#region Using Statements
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -144,12 +144,19 @@ namespace RibbonsGameplay
                 objects.Add(box);
             }
 
+<<<<<<< HEAD
+                testbox.ActivatePhysics(world, boxtext);
+                testbox.Position = new Vector2(250, 700);
+                testbox.BodyType = BodyType.Static;
+                objects.Add(testbox);
+=======
             private void MakeLevel()
             {
                 MakeBlock(boxtext, new Vector2(2, 7));
                 MakeBlock(tallflatbox_tex, new Vector2(14, 8));
                 MakeBlock(shortflatbox_tex, new Vector2(20, 21.4f));
                 MakeBlock(saverock, new Vector2(20, 20), true);
+>>>>>>> 766ff940cd61b295bbd394917984b175619904cb
             }
 
             /// <summary>
@@ -171,6 +178,9 @@ namespace RibbonsGameplay
                 ribbon.ActivatePhysics(world, scale);
 
                 boxtext = canvas.GetTexture("64x64platform");
+<<<<<<< HEAD
+                ribbon.ActivatePhysics(world, ribbon_segment);
+=======
                 spool_tex = canvas.GetTexture("64x64thimbs");
                 tallbox_tex = canvas.GetTexture("64x128platform");
                 saverock = canvas.GetTexture("saverock");
@@ -178,6 +188,7 @@ namespace RibbonsGameplay
                 tallflatbox_tex = canvas.GetTexture("128x64platform");
                 glasshook_tex = canvas.GetTexture("64x128hookglass");
 
+>>>>>>> 766ff940cd61b295bbd394917984b175619904cb
                 MakeLevel();
             }
 

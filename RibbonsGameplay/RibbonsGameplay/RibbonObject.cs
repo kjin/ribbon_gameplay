@@ -56,7 +56,7 @@ namespace RibbonsGameplay
                 {
 
                     link = new BoxObject();
-                    link.ActivatePhysics(world, texture);
+                    link.ActivatePhysics(world, texture, 1/32f);
 
                     Vector2 startPos = path[i - 1];
                     if (deltaX == 0)
@@ -86,6 +86,12 @@ namespace RibbonsGameplay
             }
         }
 
+        public bool ActivatePhysics(World world, float scale)
+        {
+
+            return true;
+        }
+
         protected override bool CreateJoints(World world)
         {
             System.Diagnostics.Debug.WriteLine("hello");
@@ -111,7 +117,6 @@ namespace RibbonsGameplay
 
         public override void Draw(GameCanvas g)
         {
-            Console.WriteLine("draw is called");
             foreach (BoxObject link in bodies)
             {
                 link.Draw(g);
