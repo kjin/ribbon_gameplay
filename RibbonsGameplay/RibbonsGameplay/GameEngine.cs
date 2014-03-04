@@ -72,6 +72,7 @@ namespace RibbonsGameplay
                 protected Texture2D saverock;
                 protected Texture2D shortflatbox_tex;
                 protected Texture2D tallflatbox_tex;
+                protected Texture2D glasshook_tex;
 
                 //Textures
                 Texture2D ribbon_segment;
@@ -158,6 +159,12 @@ namespace RibbonsGameplay
                 savebox.Position = new Vector2(20, 21.4f);
                 savebox.BodyType = BodyType.Static;
                 objects.Add(savebox);
+
+                BoxObject jumpbox = new BoxObject();
+                jumpbox.ActivatePhysics(world, tallbox_tex, scale);
+                jumpbox.Position = new Vector2(14, 5);
+                jumpbox.BodyType = BodyType.Static;
+                objects.Add(jumpbox);
             }
 
             /// <summary>
@@ -184,6 +191,7 @@ namespace RibbonsGameplay
                 saverock = canvas.GetTexture("saverock");
                 shortflatbox_tex = canvas.GetTexture("128x32platform");
                 tallflatbox_tex = canvas.GetTexture("128x64platform");
+                glasshook_tex = canvas.GetTexture("64x128hookglass");
 
                 MakeLevel();
             }
