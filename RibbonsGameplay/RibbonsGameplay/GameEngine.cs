@@ -149,6 +149,12 @@ namespace RibbonsGameplay
                 MakeBlock(tallflatbox_tex, new Vector2(14, 8));
                 MakeBlock(shortflatbox_tex, new Vector2(20, 21.4f));
                 MakeBlock(saverock, new Vector2(20, 20), true);
+                MakeBlock(glasshook_tex, new Vector2(3, 15));
+                MakeBlock(boxtext, new Vector2(27,5));
+                MakeBlock(boxtext, new Vector2(18, 5));
+                MakeBlock(boxtext, new Vector2(30, 12));
+                MakeBlock(spool_tex, new Vector2(8, 23));
+
             }
 
             /// <summary>
