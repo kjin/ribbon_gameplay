@@ -82,6 +82,8 @@ namespace RibbonsGameplay {
     #endregion
 
     #region Fields
+        protected Texture2D tiny;
+
         protected Texture2DManager textureManager;
 
         // Used to track window properties
@@ -377,6 +379,11 @@ namespace RibbonsGameplay {
             // We are not actively drawing
             state = DrawState.Inactive;
 
+            tiny = new Texture2D(game.GraphicsDevice, 1, 1);
+            Color[] data = new Color[1];
+            data[0] = Color.White;
+            tiny.SetData<Color>(data);
+
             textureManager = new Texture2DManager();
         }
 
@@ -399,7 +406,6 @@ namespace RibbonsGameplay {
         public void LoadContent(ContentManager content) {
             // Load sprite font
             //font = content.Load<SpriteFont>("Shared\\PhysicsFont");
-
             AddTexture("spritejump", "standing", "ribbon_segment", "spritefall", "walkfstrip", "64x64platform","64x64thimbs","64x128platform","saverock","128x32platform","128x64platform","64x128hookglass");
             AddTexture("backgrounds/bluemt");
             textureManager.LoadContent(content);
@@ -446,6 +452,14 @@ namespace RibbonsGameplay {
             // Set up the drawing canvas to use the appropriate blending.
             // Deferred sorting guarantees Sprites are drawn in order given.
             spriteBatch.Begin(SpriteSortMode.Deferred, blend, null, null, null, null, transform);
+        }
+
+        public void DrawLine(Vector2 start, Vector2 end, Color color)
+        {
+            Vector2 diff = end - start;
+            float angle = (float)Math.Atan2(diff.Y, diff.X);
+            float length = diff.Length();
+            DrawSprite(tiny, color, (start + end) / 2, new Vector2(length, 1f / length), angle);
         }
 
         /// <summary>
