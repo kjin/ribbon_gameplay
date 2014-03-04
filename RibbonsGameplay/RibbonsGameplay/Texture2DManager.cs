@@ -53,8 +53,11 @@ namespace RibbonsGameplay
         public Texture2D GetTexture(string assetName)
         {
             for (int i = 0; i < textures.Count; i++)
+            {
+                Console.WriteLine(assetName);
                 if (assetName == textures[i].AssetName)
                     return textures[i].Texture;
+            }
             throw new ArgumentException();
         }
     }

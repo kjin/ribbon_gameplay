@@ -51,7 +51,7 @@ namespace RibbonsGameplay
                 protected List<Object> objects;
 
                 // To process the sensor callback
-                protected HashSet<Fixture> sensorFixtures;
+                protected HashSet<Fixture> sensorFixtures = new HashSet<Fixture>();
 
                 // The seamstress and ribbon
                 protected SeamstressObject seamstress;
@@ -66,6 +66,9 @@ namespace RibbonsGameplay
 
                 // Test texture
                 Texture2D background;
+
+                //Textures
+                Texture2D ribbon_segment;
 
             #endregion
 
@@ -95,6 +98,8 @@ namespace RibbonsGameplay
                 world.ContactManager.BeginContact += ContactStarted;
                 world.ContactManager.EndContact += ContactEnded;
 
+
+                ribbon_segment = canvas.GetTexture("ribbon_segment");
                 ribbon = new RibbonObject();
                 seamstress = new SeamstressObject();
 
@@ -126,9 +131,6 @@ namespace RibbonsGameplay
                 seamstress.ActivatePhysics(world, spritestanding, spritejump);
 
                 background = canvas.GetTexture("backgrounds/bluemt");
-
-                ribbon.ActivatePhysics(world);
-
             }
 
             /// <summary>
