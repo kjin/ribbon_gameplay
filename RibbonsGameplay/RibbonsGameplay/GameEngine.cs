@@ -32,7 +32,7 @@ namespace RibbonsGameplay
 
             #region Constants
 
-                public const float GRAVITY = 9.8f;
+                public const float GRAVITY = 1000f;
 
             #endregion
 
@@ -128,7 +128,7 @@ namespace RibbonsGameplay
                 BoxObject testbox = new BoxObject();
 
                 testbox.ActivatePhysics(world, boxtext);
-                testbox.Position = new Vector2(400, 300);
+                testbox.Position = new Vector2(50, 300);
                 testbox.BodyType = BodyType.Static;
                 objects.Add(testbox);
             }

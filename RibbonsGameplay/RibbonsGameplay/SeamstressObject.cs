@@ -30,12 +30,13 @@ namespace RibbonsGameplay
             private const float SENSOR_WIDTH_COEF = 0.7f;
 
             // Physics constants
-            private const float DEFAULT_DENSITY = 1.0f;
+            private const float DEFAULT_DENSITY = 1f;
 
             // Movement constants
-            private const float SEAMSTRESS_FORCE = 2000000.0f;
-            private const float SEAMSTRESS_DAMPING = 10.0f;
-            private const float SEAMSTRESS_MAXSPEED = 600.0f;
+            private const float SEAMSTRESS_FORCE = 200000.0f;
+            private const float SEAMSTRESS_DAMPING = 100000.0f;
+            private const float SEAMSTRESS_MAXSPEED = 60000.0f;
+            public const float SEAMSTRESS_JUMPFORCE = -8000000.0f;
 
             // Cooldown constants
             private const int JUMP_COOLDOWN = 30;
@@ -259,17 +260,6 @@ namespace RibbonsGameplay
 
                     g.DrawSprite(texture, Color.White, body.Position, scale, rotation, flip);
                 }
-            }
-
-        //remove soon
-            public void OnGround()
-            {
-                isGrounded = true;
-            }
-        //remove soon
-            public void OffGround()
-            {
-                isGrounded = false;
             }
 
         #endregion
