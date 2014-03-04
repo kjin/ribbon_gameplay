@@ -73,13 +73,11 @@ namespace RibbonsGameplay
                 {
                     seamstress.Body.ApplyForce(moveForce, seamstress.Position);
                 }
-
                 
-
                 // Jump!
                 if (seamstress.IsJumping)
                 {
-                    Vector2 impulse = new Vector2(0, -2.1f);
+                    Vector2 impulse = new Vector2(0,SeamstressObject.SEAMSTRESS_JUMPFORCE);
                     seamstress.Body.ApplyLinearImpulse(impulse, seamstress.Position);
                 }
             }
