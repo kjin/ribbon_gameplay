@@ -311,14 +311,13 @@ namespace RibbonsGameplay
             }
         #endregion
 
-
         #region Methods
             /// <summary>
             /// Create a new box at the origin. Don't forget to add the texture and activate physics.
             /// </summary>
             public BoxObject()
             {
-                this.position = new Vector2(1.0f, 1.0f);
+                this.position = new Vector2(2.0f, 2.0f);
             }
             
             /// <summary>

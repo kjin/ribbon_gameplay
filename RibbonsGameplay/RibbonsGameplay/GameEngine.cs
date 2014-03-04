@@ -67,6 +67,11 @@ namespace RibbonsGameplay
                 // Test texture
                 Texture2D background;
                 protected Texture2D boxtext;
+                protected Texture2D spool_tex;
+                protected Texture2D tallbox_tex;
+                protected Texture2D saverock;
+                protected Texture2D shortflatbox_tex;
+                protected Texture2D tallflatbox_tex;
 
                 //Textures
                 Texture2D ribbon_segment;
@@ -134,6 +139,8 @@ namespace RibbonsGameplay
                 testbox.Position = new Vector2(2, 14);
                 testbox.BodyType = BodyType.Static;
                 objects.Add(testbox);
+
+
             }
 
             /// <summary>
@@ -155,6 +162,11 @@ namespace RibbonsGameplay
                 ribbon.ActivatePhysics(world, scale);
 
                 boxtext = canvas.GetTexture("64x64platform");
+                spool_tex = canvas.GetTexture("64x64thimbs");
+                tallbox_tex = canvas.GetTexture("64x128platform");
+                saverock = canvas.GetTexture("saverock");
+                shortflatbox_tex = canvas.GetTexture("128x32platform");
+                tallflatbox_tex = canvas.GetTexture("128x64platform");
 
                 MakeLevel();
             }
@@ -222,6 +234,8 @@ namespace RibbonsGameplay
 
                 world.Step(dt);
                 seamstress.Update(dt);
+
+                if (inputController.Reset) seamstress.Position = new Vector2(2, 2);
 
                 base.Update(gameTime);
             }
