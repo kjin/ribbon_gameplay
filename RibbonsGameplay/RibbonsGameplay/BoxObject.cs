@@ -318,7 +318,7 @@ namespace RibbonsGameplay
             /// </summary>
             public BoxObject()
             {
-                this.position = new Vector2(50.0f, 50.0f);
+                this.position = new Vector2(1.0f, 1.0f);
             }
             
             /// <summary>
@@ -332,11 +332,11 @@ namespace RibbonsGameplay
             /// <param name="world">Farseer world that stores body</param>
             /// <param name="texture">Texture for physics object sizing</param>
             /// <returns><c>true</c> if object allocation succeeded</returns>
-            public virtual bool ActivatePhysics(World world, Texture2D texture)
+            public virtual bool ActivatePhysics(World world, Texture2D texture, float scale)
             {
                 // Initialize
                 this.texture = texture;
-                this.dimension = new Vector2((float)texture.Width, (float)texture.Height);
+                this.dimension = 1f / scale * new Vector2((float)texture.Width, (float)texture.Height);
                 this.scale = new Vector2(dimension.X / texture.Width, dimension.Y / texture.Height);
                 
                 // Make a body, if possible

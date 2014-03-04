@@ -250,7 +250,7 @@ namespace RibbonsGameplay
         /// </remarks>
         /// <param name="world">Farseer world to store bodies</param>
         /// <returns><c>true</c> if object allocation succeeded</returns>
-        public override bool ActivatePhysics(World world, Texture2D texture)
+        public override bool ActivatePhysics(World world, Texture2D texture, float scale)
         {
             isActive = true;
             bool success = true;
@@ -258,7 +258,7 @@ namespace RibbonsGameplay
             // Create all other bodies.
             foreach (BoxObject obj in bodies)
             {
-                success = success && obj.ActivatePhysics(world, texture);
+                success = success && obj.ActivatePhysics(world, texture, scale);
             }
             success = success && CreateJoints(world);
             isActive = success;

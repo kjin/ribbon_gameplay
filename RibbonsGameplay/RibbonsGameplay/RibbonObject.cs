@@ -51,7 +51,7 @@ namespace RibbonsGameplay
                 for (int k = 0; k < numLinks; k++)
                 {
                     link = new BoxObject();
-                    link.ActivatePhysics(world, texture);
+                    link.ActivatePhysics(world, texture, 1/32f);
 
                     if(deltaX == 0){
                         link.Position = new Vector2(pos.X, pos.Y + (k * linksize));
@@ -78,6 +78,12 @@ namespace RibbonsGameplay
 
         }
 
+        public bool ActivatePhysics(World world, float scale)
+        {
+
+            return true;
+        }
+
         protected override bool CreateJoints(World world)
         {
             return true;
@@ -87,7 +93,7 @@ namespace RibbonsGameplay
         {
             Console.WriteLine("draw is called");
             foreach (BoxObject link in bodies)
-            {
+        {
                 link.Draw(g);
             }
         }

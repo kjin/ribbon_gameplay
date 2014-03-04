@@ -32,7 +32,7 @@ namespace RibbonsGameplay
 
             #region Constants
 
-                public const float GRAVITY = 1000f;
+                public const float GRAVITY = 9.8f;
 
             #endregion
 
@@ -71,6 +71,8 @@ namespace RibbonsGameplay
                 //Textures
                 Texture2D ribbon_segment;
 
+                protected float scale = 32f;
+
             #endregion
 
             #region Initialization
@@ -93,6 +95,7 @@ namespace RibbonsGameplay
             protected override void Initialize()
             {
                 canvas.Initialize(this);
+                canvas.Scale = scale * Vector2.One;
 
                 world = new World(new Vector2(0,GRAVITY));
 
@@ -127,8 +130,8 @@ namespace RibbonsGameplay
             {
                 BoxObject testbox = new BoxObject();
 
-                testbox.ActivatePhysics(world, boxtext);
-                testbox.Position = new Vector2(50, 300);
+                testbox.ActivatePhysics(world, boxtext, scale);
+                testbox.Position = new Vector2(2, 7);
                 testbox.BodyType = BodyType.Static;
                 objects.Add(testbox);
             }
@@ -145,8 +148,11 @@ namespace RibbonsGameplay
                 Texture2D spritestanding = canvas.GetTexture("standing");
                 Texture2D spritefalling = canvas.GetTexture("spritefall");
                 Texture2D spritewalking = canvas.GetTexture("walkfstrip");
-                seamstress.ActivatePhysics(world, spritestanding, spritejump, spritefalling, spritewalking);
+                seamstress.ActivatePhysics(world, spritestanding, spritejump, spritefalling, spritewalking, scale);
+
                 background = canvas.GetTexture("backgrounds/bluemt");
+
+                ribbon.ActivatePhysics(world, scale);
 
                 boxtext = canvas.GetTexture("64x64platform");
 
@@ -227,9 +233,8 @@ namespace RibbonsGameplay
             protected override void Draw(GameTime gameTime)
             {
                 canvas.Reset();
-
                 canvas.BeginSpritePass(BlendState.AlphaBlend);
-                canvas.DrawSprite(background, Color.White, new Vector2(background.Width / 2, background.Height / 2));
+                canvas.DrawSprite(background, Color.White, new Vector2(background.Width, background.Height) / scale / 2, Vector2.One / scale, 0);
                 foreach (Object o in objects)
                 {
                     o.Draw(canvas);
