@@ -32,8 +32,8 @@ namespace RibbonsGameplay
         public Texture2DManager(params string[] assetNames)
         {
             textures = new List<TextureAsset>();
-            foreach (string s in assetNames)
-                textures.Add(new TextureAsset(s));
+            foreach (string str in assetNames)
+                textures.Add(new TextureAsset(str));
         }
 
         public void AddTexture(params string[] assetNames)
