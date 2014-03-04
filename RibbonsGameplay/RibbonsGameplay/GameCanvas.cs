@@ -550,6 +550,39 @@ namespace RibbonsGameplay {
         }
 
         /// <summary>
+        /// Animate a sprite on this drawing canvas.
+        /// </summary>
+        /// <remarks>
+        /// This version of the drawing method will animate an image over a 
+        /// filmstrip. It assumes that the filmstrip is a SINGLE LINE of 
+        /// images.  You must modify the code if this is not the case.
+        /// </remarks>
+        /// <param name="image">Sprite to draw</param>
+        /// <param name="tint">Color to tint sprite</param>
+        /// <param name="position">Location to draw image on canvas</param>
+        /// <param name="scale">Amount to scale image (in addition to global scale)</param>
+        /// <param name="angle">Amount to rotate image in radians</param>
+        /// <param name="frame">Current animation frame</param>
+        /// <param name="framesize">Number of frames in filmstrip</param>
+        /// <param name="option">Sprite effects option</param>
+        public void DrawSprite(Texture2D image, Color tint, Vector2 position, Vector2 scale, float angle, int frame, int framesize, SpriteEffects option)
+        {
+            // Enforce invariants.
+            Debug.Assert(state == DrawState.SpritePass, "Drawing state is invalid (expected SpritePass)");
+
+            // Pick out the right frame
+            int width = image.Width / framesize;
+            int height = image.Height;
+
+            // Compute frame position assuming only 1 row of frames.
+            Rectangle src = new Rectangle(frame * width, 0, width, height);
+            Vector2 origin = new Vector2(width / 2, height / 2);
+
+            // Draw it.
+            spriteBatch.Draw(image, position, src, tint, angle, origin, scale, option, 0);
+        }
+
+        /// <summary>
         /// Draw an unscaled overlay image.
         /// </summary>
         /// <remarks>
