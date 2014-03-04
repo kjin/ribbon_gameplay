@@ -146,15 +146,16 @@ namespace RibbonsGameplay
             private void MakeLevel()
             {
                 MakeBlock(boxtext, new Vector2(2, 7));
-                MakeBlock(tallflatbox_tex, new Vector2(14, 8));
+                MakeBlock(tallflatbox_tex, new Vector2(14, 10));
                 MakeBlock(shortflatbox_tex, new Vector2(20, 21.4f));
                 MakeBlock(saverock, new Vector2(20, 20), true);
                 MakeBlock(glasshook_tex, new Vector2(3, 15));
-                MakeBlock(boxtext, new Vector2(27,5));
-                MakeBlock(boxtext, new Vector2(18, 5));
+                MakeBlock(boxtext, new Vector2(27,8));
+                MakeBlock(boxtext, new Vector2(19, 7));
                 MakeBlock(boxtext, new Vector2(30, 12));
                 MakeBlock(spool_tex, new Vector2(8, 23));
-
+                MakeBlock(boxtext, new Vector2(26, 18));
+                MakeBlock(boxtext, new Vector2(20, 14));
             }
 
             /// <summary>
