@@ -74,7 +74,7 @@ namespace RibbonsGameplay
                     seamstress.Body.ApplyForce(moveForce, seamstress.Position);
                 }
 
-                Console.WriteLine(seamstress.Position);
+                
 
                 // Jump!
                 if (seamstress.IsJumping)

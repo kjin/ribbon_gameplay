@@ -41,7 +41,7 @@ namespace RibbonsGameplay
             private const int JUMP_COOLDOWN = 30;
 
             protected const int MAX_FRAME = 4;
-            protected int frame;
+            protected const int FRAME_SPEED = 10;
         #endregion
 
         #region Properties
@@ -135,6 +135,10 @@ namespace RibbonsGameplay
         #endregion
 
         #region Fields
+
+            protected int frame;
+            protected int frameSwitch;
+        
             // Cooldown for seamstress abilities
             private float movement;
             private bool facingRight;
@@ -171,6 +175,7 @@ namespace RibbonsGameplay
 
                 jumpCooldown = 0;
                 frame = 0;
+                frameSwitch = 0;
             }
 
             /// <summary>
@@ -225,8 +230,13 @@ namespace RibbonsGameplay
                     jumpCooldown = Math.Max(0, jumpCooldown - 1);
                 }
 
-                frame++;
-                if (frame > MAX_FRAME) frame = 0;
+                frameSwitch++;
+                if (frameSwitch > FRAME_SPEED)
+                {
+                    frame++;
+                    frameSwitch = 0;
+                }
+                if (frame >= MAX_FRAME) frame = 0;
 
                 base.Update(dt);
             }

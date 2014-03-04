@@ -117,9 +117,10 @@ namespace RibbonsGameplay
             private void MakeLevel()
             {
                 BoxObject testbox = new BoxObject();
-                if (boxtext == null) throw new ArgumentNullException();
+
                 testbox.ActivatePhysics(world, boxtext);
-                testbox.Position = new Vector2(400, 400);
+                testbox.Position = new Vector2(400, 300);
+                testbox.BodyType = BodyType.Static;
                 objects.Add(testbox);
             }
 
@@ -208,6 +209,7 @@ namespace RibbonsGameplay
                 float dt = (float) gameTime.ElapsedGameTime.TotalSeconds;
 
                 world.Step(dt);
+                seamstress.Update(dt);
 
                 base.Update(gameTime);
             }
