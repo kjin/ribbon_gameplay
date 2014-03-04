@@ -34,9 +34,9 @@ namespace RibbonsGameplay
 
             // Movement constants
             private const float SEAMSTRESS_FORCE = 20.0f;
-            private const float SEAMSTRESS_DAMPING = 30.0f;
+            private const float SEAMSTRESS_DAMPING = 40.0f;
             private const float SEAMSTRESS_MAXSPEED = 6.0f;
-            public const float SEAMSTRESS_JUMPFORCE = -7.0f;
+            public const float SEAMSTRESS_JUMPFORCE = -10.0f;
 
             // Cooldown constants
             private const int JUMP_COOLDOWN = 30;
