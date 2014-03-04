@@ -16,13 +16,12 @@ namespace RibbonsGameplay
 {
     class PinObject : BoxObject
     {
-        protected Vector2 position;
-
         public PinObject(World world, Vector2 position)
         {
+            // This will be used to create fasters between the ribbon and the background
             Body roller = BodyFactory.CreateCircle(world, .1f, 1, this);
             Body roller2 = BodyFactory.CreateCircle(world, .25f, 1, this);
-            roller.BodyType = BodyType.Dynamic;
+            roller.BodyType = BodyType.Static;
             roller2.BodyType = BodyType.Dynamic;
             roller.Position = position;
             roller2.Position = position;
