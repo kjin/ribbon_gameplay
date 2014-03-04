@@ -140,7 +140,24 @@ namespace RibbonsGameplay
                 testbox.BodyType = BodyType.Static;
                 objects.Add(testbox);
 
+                BoxObject box1 = new BoxObject();
+                box1.ActivatePhysics(world, tallflatbox_tex, scale);
+                box1.Position = new Vector2(14, 8);
+                box1.BodyType = BodyType.Static;
+                objects.Add(box1);
 
+                BoxObject saveRock = new BoxObject();
+                saveRock.ActivatePhysics(world, saverock, scale);
+                saveRock.Position = new Vector2(20, 20);
+                saveRock.BodyType = BodyType.Static;
+                saveRock.Body.IgnoreCollisionWith(seamstress.Body);
+                objects.Add(saveRock);
+
+                BoxObject savebox = new BoxObject();
+                savebox.ActivatePhysics(world, shortflatbox_tex, scale);
+                savebox.Position = new Vector2(20, 21.4f);
+                savebox.BodyType = BodyType.Static;
+                objects.Add(savebox);
             }
 
             /// <summary>
