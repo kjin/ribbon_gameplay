@@ -91,9 +91,8 @@ namespace RibbonsGameplay
 
         public override void Draw(GameCanvas g)
         {
-            Console.WriteLine("draw is called");
             foreach (BoxObject link in bodies)
-        {
+            {
                 link.Draw(g);
             }
         }

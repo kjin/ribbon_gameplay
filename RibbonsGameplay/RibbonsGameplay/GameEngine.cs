@@ -136,7 +136,7 @@ namespace RibbonsGameplay
                 BoxObject testbox = new BoxObject();
 
                 testbox.ActivatePhysics(world, boxtext, scale);
-                testbox.Position = new Vector2(2, 7);
+                testbox.Position = new Vector2(2, 14);
                 testbox.BodyType = BodyType.Static;
                 objects.Add(testbox);
 
