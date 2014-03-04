@@ -11,9 +11,16 @@ namespace RibbonsGameplay
     public class RibbonObject : Object
     {
 
-        public RibbonObject(World w)
+        public RibbonObject()
         {
 
+        }
+
+        public bool ActivatePhysics(World world)
+        {
+
+            //add to world
+            return true;
         }
 
         public void Draw(GameCanvas g)

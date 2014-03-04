@@ -46,6 +46,15 @@ namespace RibbonsGameplay {
         protected bool prevPrevious;
         protected bool exitPressed;
         protected bool exitPrevious;
+
+        // Will's Additions
+        private float sHorizontal;  // Seamstress horizontal
+        private float rHorizontal;  // Ribbon Horizontal
+        private bool sIsJumping;    // seamstress is jumping?
+        private bool rIsFlipping;   // are we flipping the ribbon
+
+        private SeamstressObject seamstress;
+        private RibbonObject ribbon;
     #endregion
 
     #region Properties (READ-ONLY)
@@ -76,13 +85,49 @@ namespace RibbonsGameplay {
         public bool Exit {
             get { return exitPressed && !exitPrevious; }
         }
+
+        /// <summary>
+        /// The movement of the ribbon.
+        /// </summary>
+        public float RMovement
+        {
+            get { return rHorizontal; }
+        }
+
+        /// <summary>
+        /// The movement of the seamstress.
+        /// </summary>
+        public float SMovement
+        {
+            get { return sHorizontal; }
+        }
+
+        /// <summary>
+        /// Whether or not the seamstress is jumping.
+        /// </summary>
+        public bool Jumping 
+        {
+            get { return sIsJumping; }
+        }
+
+        /// <summary>
+        /// Whether or not the ribbon is flipping.  
+        /// </summary>
+        public bool Flipping
+        {
+            get { return rIsFlipping; }
+        }
     #endregion
 
     #region Methods
         /// <summary>
         /// Creates a new input controller.
         /// </summary>
-        public MainInputController(SeamstressObject seamstress, RibbonObject ribbon) { }
+        public MainInputController(SeamstressObject seamstress, RibbonObject ribbon) 
+        {
+            this.seamstress = seamstress;
+            this.ribbon = ribbon;
+        }
 
         /// <summary>
         /// Reads the input for the player and converts the result into game logic.
@@ -127,6 +172,34 @@ namespace RibbonsGameplay {
             nextPressed = keyboard.IsKeyDown(Keys.N);
             prevPressed = keyboard.IsKeyDown(Keys.P);
             exitPressed = keyboard.IsKeyDown(Keys.Escape);
+
+            // Seamstress Controls
+            sHorizontal = 0.0f;
+            if (keyboard.IsKeyDown(Keys.Right))
+            {
+                sHorizontal += 1.0f;
+            }
+            if (keyboard.IsKeyDown(Keys.Left))
+            {
+                sHorizontal -= 1.0f;
+            }
+            sIsJumping = keyboard.IsKeyDown(Keys.Up);
+
+            // Ribbon Controls
+            rHorizontal = 0.0f;
+            if (keyboard.IsKeyDown(Keys.A))
+            {
+                rHorizontal -= 1.0f;
+            }
+            if (keyboard.IsKeyDown(Keys.D))
+            {
+                rHorizontal += 1.0f;
+            }
+            rIsFlipping = keyboard.IsKeyDown(Keys.S);
+
+            seamstress.Movement = rHorizontal * seamstress.Force;
+            seamstress.IsJumping = sIsJumping;
+
         }
     #endregion
 

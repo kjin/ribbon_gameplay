@@ -18,6 +18,8 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Dynamics.Joints;
 using FarseerPhysics.Factories;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 #endregion
 
 namespace RibbonsGameplay
@@ -62,8 +64,8 @@ namespace RibbonsGameplay
                 // Physics simulator
                 protected World world;
 
-            // Test texture
-            Texture2D texture;
+                // Test texture
+                Texture2D background;
 
             #endregion
 
@@ -93,8 +95,8 @@ namespace RibbonsGameplay
                 world.ContactManager.BeginContact += ContactStarted;
                 world.ContactManager.EndContact += ContactEnded;
 
-                RibbonObject ribbon = new RibbonObject(world);
-                SeamstressObject seamstress = new SeamstressObject();
+                ribbon = new RibbonObject();
+                seamstress = new SeamstressObject();
 
                 seamstressController = new SeamstressForceController(seamstress);
                 world.AddController(seamstressController);
@@ -119,7 +121,13 @@ namespace RibbonsGameplay
                 // General view content
                 canvas.LoadContent(content);
 
-                texture = canvas.GetTexture("backgrounds/bluemt");
+                Texture2D spritejump = canvas.GetTexture("spritejump");
+                Texture2D spritestanding = canvas.GetTexture("standing");
+                seamstress.ActivatePhysics(world, spritestanding, spritejump);
+
+                background = canvas.GetTexture("backgrounds/bluemt");
+
+                ribbon.ActivatePhysics(world);
 
             }
 
@@ -198,7 +206,7 @@ namespace RibbonsGameplay
                 canvas.Reset();
 
                 canvas.BeginSpritePass(BlendState.AlphaBlend);
-                canvas.DrawSprite(texture, Color.White, new Vector2(texture.Width / 2, texture.Height / 2));
+                canvas.DrawSprite(background, Color.White, new Vector2(background.Width / 2, background.Height / 2));
                 foreach (Object o in objects)
                 {
                     o.Draw(canvas);
