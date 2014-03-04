@@ -168,7 +168,7 @@ namespace RibbonsGameplay
 
                 background = canvas.GetTexture("backgrounds/bluemt");
 
-                ribbon.ActivatePhysics(world, scale);
+                ribbon.ActivatePhysics(world, ribbon_segment, scale);
 
                 boxtext = canvas.GetTexture("64x64platform");
                 spool_tex = canvas.GetTexture("64x64thimbs");

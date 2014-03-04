@@ -35,6 +35,7 @@ namespace RibbonsGameplay
         public RibbonObject(World world, Texture2D texture, Vector2 pos, float linksize, Vector2 size, List<Vector2> path) : 
             base(pos)
         {
+            System.Diagnostics.Debug.WriteLine("test");
             this.texture = texture;
             this.path = path;
             dimension = size;
@@ -54,14 +55,10 @@ namespace RibbonsGameplay
                 BoxObject link;
                 for (int k = 0; k < numLinks; k++)
                 {
-<<<<<<< HEAD
-=======
+                    
                     link = new BoxObject();
                     link.ActivatePhysics(world, texture, 1/32f);
->>>>>>> 766ff940cd61b295bbd394917984b175619904cb
-
-                    link = new BoxObject();
-                    link.ActivatePhysics(world, texture, 1/32f);
+                    System.Diagnostics.Debug.WriteLine(link);
 
                     Vector2 startPos = path[i - 1];
                     if (deltaX == 0)
@@ -85,22 +82,10 @@ namespace RibbonsGameplay
                             link.Position = new Vector2(startPos.X - (k * linksize) - 6, startPos.Y);
                         }
                     }
-                    link.BodyType = BodyType.Dynamic;
+                    link.BodyType = BodyType.Static;
                     bodies.Add(link);
                 }
             }
-        }
-
-        public bool ActivatePhysics(World world, float scale)
-        {
-
-            return true;
-        }
-
-        public bool ActivatePhysics(World world, float scale)
-        {
-
-            return true;
         }
 
         protected override bool CreateJoints(World world)
