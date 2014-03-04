@@ -68,6 +68,9 @@ namespace RibbonsGameplay
                 Texture2D background;
                 protected Texture2D boxtext;
 
+                //Textures
+                Texture2D ribbon_segment;
+
                 protected float scale = 32f;
 
             #endregion
@@ -99,7 +102,13 @@ namespace RibbonsGameplay
                 world.ContactManager.BeginContact += ContactStarted;
                 world.ContactManager.EndContact += ContactEnded;
 
-                ribbon = new RibbonObject();
+                canvas.LoadContent(content);
+
+                ribbon_segment = canvas.GetTexture("ribbon_segment");
+                List<Vector2> path = new List<Vector2>();
+                path.Add(new Vector2(100, 100));
+                path.Add(new Vector2(500, 100));
+                ribbon = new RibbonObject(world, ribbon_segment, new Vector2(100,100), ribbon_segment.Width, path);
                 seamstress = new SeamstressObject();
 
                 seamstressController = new SeamstressForceController(seamstress);

@@ -78,7 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoxObject.cs" />
+    <Compile Include="ComplexPhysicsObject.cs" />
     <Compile Include="Gradient.cs" />
+    <Compile Include="PhysicsObject.cs" />
     <Compile Include="RibbonForceController.cs" />
     <Compile Include="GameCanvas.cs" />
     <Compile Include="GameEngine.cs" />

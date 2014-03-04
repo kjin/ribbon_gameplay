@@ -30,12 +30,13 @@ namespace RibbonsGameplay
             private const float SENSOR_WIDTH_COEF = 0.7f;
 
             // Physics constants
-            private const float DEFAULT_DENSITY = 1.0f;
+            private const float DEFAULT_DENSITY = 1f;
 
             // Movement constants
             private const float SEAMSTRESS_FORCE = 20.0f;
             private const float SEAMSTRESS_DAMPING = 30.0f;
             private const float SEAMSTRESS_MAXSPEED = 6.0f;
+            public const float SEAMSTRESS_JUMPFORCE = -7.0f;
 
             // Cooldown constants
             private const int JUMP_COOLDOWN = 30;
@@ -207,7 +208,7 @@ namespace RibbonsGameplay
                 // To determine whether or not the dude is on the ground, 
                 // we create a thin sensor under his feet, which reports 
                 // collisions with the world but has no collision response.
-                Vector2 sensorCenter = new Vector2(0, dimension.Y / 2);
+                Vector2 sensorCenter = new Vector2(0, dimension.Y / 2 * SENSOR_WIDTH_COEF);
                 sensorFixture = FixtureFactory.AttachRectangle(dimension.X, SENSOR_HEIGHT, DEFAULT_DENSITY, sensorCenter, body, SensorName);
                 sensorFixture.IsSensor = true;
 
@@ -259,18 +260,6 @@ namespace RibbonsGameplay
 
                     g.DrawSprite(texture, Color.White, Position, scale, rotation, flip);
                 }
-                Console.WriteLine(Position);
-            }
-
-        //remove soon
-            public void OnGround()
-            {
-                isGrounded = true;
-            }
-        //remove soon
-            public void OffGround()
-            {
-                isGrounded = false;
             }
 
         #endregion
