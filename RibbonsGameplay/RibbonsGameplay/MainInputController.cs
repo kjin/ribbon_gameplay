@@ -197,7 +197,7 @@ namespace RibbonsGameplay {
             }
             rIsFlipping = keyboard.IsKeyDown(Keys.S);
 
-            seamstress.Movement = rHorizontal * seamstress.Force;
+            seamstress.Movement = sHorizontal * seamstress.Force;
             seamstress.IsJumping = sIsJumping;
 
         }
