@@ -367,7 +367,7 @@ namespace RibbonsGameplay
             {
                 if (fixture != null)
                 {
-                    body.DestroyFixture(fixture);
+                    //body.DestroyFixture(fixture);
                 }
                 Vertices rectangleVertices = PolygonTools.CreateRectangle(dimension.X / 2, dimension.Y / 2);
                 PolygonShape rectangleShape = new PolygonShape(rectangleVertices, density);

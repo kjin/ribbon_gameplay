@@ -103,8 +103,9 @@ namespace RibbonsGameplay
 
                 ribbon_segment = canvas.GetTexture("ribbon_segment");
                 List<Vector2> path = new List<Vector2>();
-                path.Add(new Vector2(100, 100));
-                path.Add(new Vector2(500, 100));
+                path.Add(new Vector2(250, 250));
+                path.Add(new Vector2(258, 338));
+
                 ribbon = new RibbonObject(world, ribbon_segment, new Vector2(100,100), ribbon_segment.Width, path);
                 seamstress = new SeamstressObject();
 
@@ -128,7 +129,7 @@ namespace RibbonsGameplay
                 BoxObject testbox = new BoxObject();
 
                 testbox.ActivatePhysics(world, boxtext);
-                testbox.Position = new Vector2(50, 300);
+                testbox.Position = new Vector2(250, 700);
                 testbox.BodyType = BodyType.Static;
                 objects.Add(testbox);
             }
@@ -149,7 +150,7 @@ namespace RibbonsGameplay
                 background = canvas.GetTexture("backgrounds/bluemt");
 
                 boxtext = canvas.GetTexture("64x64platform");
-
+                ribbon.ActivatePhysics(world, ribbon_segment);
                 MakeLevel();
             }
 

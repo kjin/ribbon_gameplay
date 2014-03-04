@@ -7,6 +7,8 @@ using FarseerPhysics.Controllers;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using FarseerPhysics.Factories;
+using FarseerPhysics.Dynamics.Joints;
 
 namespace RibbonsGameplay
 {
@@ -14,8 +16,8 @@ namespace RibbonsGameplay
     {
         #region Fields
             // Invisible anchor objects needed for Farseer 3.5
-            protected Body start = null;
-            protected Body finish = null;
+            protected Vector2 start;
+            protected Vector2 finish;
 
             // Dimension information
             protected Vector2 dimension;
@@ -24,6 +26,7 @@ namespace RibbonsGameplay
 
             // The plank texture
             protected Texture2D texture;
+            protected List<Vector2> path;
         #endregion
 
         public RibbonObject(World world, Texture2D texture, Vector2 pos, float linksize, List<Vector2> path) :
@@ -33,10 +36,11 @@ namespace RibbonsGameplay
             base(pos)
         {
             this.texture = texture;
+            this.path = path;
             dimension = size;
             this.BodyType = BodyType.Static;
 
-            for(int i=1; i < path.Count; i++)
+            for (int i = 1; i < path.Count; i++)
             {
                 Vector2 point1 = path[i];
                 Vector2 point2 = path[i - 1];
@@ -50,36 +54,58 @@ namespace RibbonsGameplay
                 BoxObject link;
                 for (int k = 0; k < numLinks; k++)
                 {
+
                     link = new BoxObject();
                     link.ActivatePhysics(world, texture);
 
-                    if(deltaX == 0){
-                        link.Position = new Vector2(pos.X, pos.Y + (k * linksize));
+                    Vector2 startPos = path[i - 1];
+                    if (deltaX == 0)
+                    {
+                        if (deltaY > 0){
+                            link.Position = new Vector2(startPos.X - 4, startPos.Y + (k * linksize) + 2);
+                            link.Rotation = 0.5F * (float)Math.PI;
+                        }
+                        else{
+                            link.Position = new Vector2(startPos.X - 2, startPos.Y - (k * linksize) - 2);
+                            link.Rotation = 0.5F * (float)Math.PI;
+                        }
+                        
                     }
-                    else{
-                        link.Position = new Vector2(pos.X + (k * linksize), pos.Y);
+                    else
+                    {
+                        if (deltaX > 0){
+                            link.Position = new Vector2(startPos.X + (k * linksize), startPos.Y);
+                        }
+                        else{
+                            link.Position = new Vector2(startPos.X - (k * linksize) - 6, startPos.Y);
+                        }
                     }
-                    link.BodyType = BodyType.Static;
+                    link.BodyType = BodyType.Dynamic;
                     bodies.Add(link);
                 }
             }
-
-            //BoxObject link = new BoxObject();
-            //link.ActivatePhysics(world, texture);
-            //link.Density = 100000f;
-            //bodies.Add(link);
-            //link = new BoxObject();
-            //link.ActivatePhysics(world, texture);
-            //link.Position = new Vector2(100, 100);
-            //link.BodyType = BodyType.Static;
-            //link.Density = 100000f;
-            //bodies.Add(link);
-
-
         }
 
         protected override bool CreateJoints(World world)
         {
+            System.Diagnostics.Debug.WriteLine("hello");
+            start = path[0];
+            finish = path[path.Count - 1];
+
+            Vector2 anchor1 = new Vector2();
+            Vector2 anchor2 = new Vector2(-linksize / 2, 0);
+            Joint joint;
+
+            // Link the ribbon together
+            anchor1.X = linksize / 2;
+            for (int ii = 0; ii < bodies.Count - 1; ii++)
+            {
+
+                // Link the interior links
+                joint = JointFactory.CreateWeldJoint(world, bodies[ii].Body, bodies[ii + 1].Body, -anchor2, anchor2);
+                bodies[ii].Body.GravityScale = 0F;
+                joints.Add(joint);
+            }
             return true;
         }
 

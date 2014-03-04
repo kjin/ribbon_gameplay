@@ -252,6 +252,7 @@ namespace RibbonsGameplay
         /// <returns><c>true</c> if object allocation succeeded</returns>
         public override bool ActivatePhysics(World world, Texture2D texture)
         {
+            System.Diagnostics.Debug.WriteLine("being called");
             isActive = true;
             bool success = true;
 
