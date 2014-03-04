@@ -98,9 +98,10 @@ namespace RibbonsGameplay
                 world.ContactManager.BeginContact += ContactStarted;
                 world.ContactManager.EndContact += ContactEnded;
 
+                canvas.LoadContent(content);
 
                 ribbon_segment = canvas.GetTexture("ribbon_segment");
-                ribbon = new RibbonObject();
+                //ribbon = new RibbonObject();
                 seamstress = new SeamstressObject();
 
                 seamstressController = new SeamstressForceController(seamstress);
@@ -110,7 +111,7 @@ namespace RibbonsGameplay
                 world.AddController(ribbonController);
 
                 objects = new List<Object>();
-                objects.Add(ribbon);
+                //objects.Add(ribbon);
                 objects.Add(seamstress);
 
                 inputController = new MainInputController(seamstress, ribbon);
