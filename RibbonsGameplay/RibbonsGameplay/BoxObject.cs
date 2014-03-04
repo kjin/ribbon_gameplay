@@ -71,7 +71,7 @@ namespace RibbonsGameplay
             /// <summary>
             /// Whether our object has been flagged for garbage collection
             /// </summary>
-            public bool Remove
+            public virtual bool Remove
             {
                 get { return toRemove; }
                 set { toRemove = value; }
@@ -83,7 +83,7 @@ namespace RibbonsGameplay
             /// <remarks>
             /// This value is buffered if it is set before body creation
             /// </remarks>
-            public float X
+            public virtual float X
             {
                 get { return position.X; }
                 set { Position = new Vector2(value, position.Y); }
@@ -95,7 +95,7 @@ namespace RibbonsGameplay
             /// <remarks>
             /// This value is buffered if it is set before body creation
             /// </remarks>
-            public float Y
+            public virtual float Y
             {
                 get { return position.Y; }
                 set { Position = new Vector2(position.X, value); }
@@ -107,7 +107,7 @@ namespace RibbonsGameplay
             /// <remarks>
             /// This value is buffered if it is set before body creation
             /// </remarks>
-            public float VX
+            public virtual float VX
             {
                 get { return linearVelocity.X; }
                 set { LinearVelocity = new Vector2(value, linearVelocity.Y); }
@@ -119,7 +119,7 @@ namespace RibbonsGameplay
             /// <remarks>
             /// This value is buffered if it is set before body creation
             /// </remarks>
-            public float VY
+            public virtual float VY
             {
                 get { return linearVelocity.Y; }
                 set { LinearVelocity = new Vector2(linearVelocity.X, value); }
@@ -132,7 +132,7 @@ namespace RibbonsGameplay
             /// We track the difference between the box shape and the texture size
             /// for drawing purposes.  All changes are buffered until Update is called.
             /// </remarks>
-            public Vector2 Dimension
+            public virtual Vector2 Dimension
             {
                 get { return dimension; }
                 set
@@ -152,7 +152,7 @@ namespace RibbonsGameplay
             /// We track the difference between the box shape and the texture size
             /// for drawing purposes.  All changes are buffered until Update is called.
             /// </remarks>
-            public float Width
+            public virtual float Width
             {
                 get { return dimension.X; }
                 set
@@ -171,7 +171,7 @@ namespace RibbonsGameplay
             /// We track the difference between the box shape and the texture size
             /// for drawing purposes.  All changes are buffered until Update is called.
             /// </remarks>
-            public float Height
+            public virtual float Height
             {
                 get { return dimension.Y; }
                 set
@@ -189,7 +189,7 @@ namespace RibbonsGameplay
             /// <remarks>
             /// Unlike density, we can pass this value through to the fixture.
             /// </remarks>
-            public float Friction
+            public virtual float Friction
             {
                 get { return friction; }
                 set
@@ -208,7 +208,7 @@ namespace RibbonsGameplay
             /// <remarks>
             /// Unlike density, we can pass this value through to the fixture.
             /// </remarks>
-            public float Restitution
+            public virtual float Restitution
             {
                 get { return restitution; }
                 set
@@ -229,7 +229,7 @@ namespace RibbonsGameplay
             /// KINEMATIC allows the object to move and collide, but ignores external forces 
             /// (e.g. gravity). DYNAMIC makes this is a full-blown physics object.
             /// </remarks>
-            public BodyType BodyType
+            public virtual BodyType BodyType
             {
                 get { return (body != null ? body.BodyType : bodyType); }
                 set
@@ -245,7 +245,7 @@ namespace RibbonsGameplay
             /// <summary>
             /// Current position for this physics body
             /// </summary>
-            public Vector2 Position
+            public virtual Vector2 Position
             {
                 get { return (body != null ? body.Position : position); }
                 set
@@ -261,7 +261,7 @@ namespace RibbonsGameplay
             /// <summary>
             /// Linear velocity for this physics body
             /// </summary>
-            public Vector2 LinearVelocity
+            public virtual Vector2 LinearVelocity
             {
                 get { return (body != null ? body.LinearVelocity : linearVelocity); }
                 set
@@ -277,7 +277,7 @@ namespace RibbonsGameplay
             /// <summary>
             /// Angle of rotation for this body (about the center).
             /// </summary>
-            public float Rotation
+            public virtual float Rotation
             {
                 get { return (body != null ? body.Rotation : rotation); }
                 set
@@ -293,7 +293,7 @@ namespace RibbonsGameplay
             /// <summary>
             /// Object texture for drawing purposes.
             /// </summary>
-            public Texture2D Texture
+            public virtual Texture2D Texture
             {
                 get { return texture; }
                 set { texture = value; }
@@ -305,7 +305,7 @@ namespace RibbonsGameplay
             /// <remarks>
             /// Use this body to add joints and apply forces.
             /// </remarks>
-            public Body Body
+            public virtual Body Body
             {
                 get { return body; }
             }
@@ -402,7 +402,7 @@ namespace RibbonsGameplay
             /// <param name="canvas">Drawing context</param>
             public virtual void Draw(GameCanvas g)
             {
-                g.DrawSprite(texture, Color.White, position, scale, rotation);
+                g.DrawSprite(texture, Color.Black, Position, scale, rotation);
             }
 
         #endregion

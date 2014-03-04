@@ -43,12 +43,12 @@ namespace RibbonsGameplay
     /// ComplexPhysicsObject is a hierarchical class.  It groups children as PhysicsObjects,
     /// not bodies.  So you could have a ComplexPhysicsObject made up of other ComplexPhysicsObjects.
     /// </remarks>
-    public abstract class ComplexPhysicsObject : PhysicsObject
+    public abstract class ComplexPhysicsObject : BoxObject
     {
 
         #region Fields
         // We are made of other objects
-        protected List<PhysicsObject> bodies;
+        protected List<BoxObject> bodies;
         protected List<Joint> joints;
         #endregion
 
@@ -67,7 +67,7 @@ namespace RibbonsGameplay
             set
             {
                 bodyType = value; // Always update the buffer.
-                foreach (PhysicsObject obj in bodies)
+                foreach (BoxObject obj in bodies)
                 {
                     obj.BodyType = value;
                 }
@@ -84,7 +84,7 @@ namespace RibbonsGameplay
             {
                 // Adjust all children by same amount.
                 Vector2 offset = value - Position;
-                foreach (PhysicsObject obj in bodies)
+                foreach (BoxObject obj in bodies)
                 {
                     Vector2 diff = obj.Position - position;
                     obj.Position += offset;
@@ -102,7 +102,7 @@ namespace RibbonsGameplay
             set
             {
                 linearVelocity = value; // Always update the buffer.
-                foreach (PhysicsObject obj in bodies)
+                foreach (BoxObject obj in bodies)
                 {
                     obj.LinearVelocity = value;
                 }
@@ -121,7 +121,7 @@ namespace RibbonsGameplay
                 float offset = value - Rotation;
                 float cos = (float)Math.Cos(offset);
                 float sin = (float)Math.Sin(offset);
-                foreach (PhysicsObject obj in bodies)
+                foreach (BoxObject obj in bodies)
                 {
                     Vector2 diff = obj.Position - position;
                     Vector2 pos = new Vector2(cos * diff.X - sin * diff.Y,
@@ -147,7 +147,7 @@ namespace RibbonsGameplay
             {
                 Debug.Assert(value >= 0, "Density must be >= 0");
                 density = value; // Always update the buffer.
-                foreach (PhysicsObject obj in bodies)
+                foreach (BoxObject obj in bodies)
                 {
                     obj.Density = value;
                 }
@@ -171,7 +171,7 @@ namespace RibbonsGameplay
             set
             {
                 friction = value; // Always update the buffer
-                foreach (PhysicsObject obj in bodies)
+                foreach (BoxObject obj in bodies)
                 {
                     obj.Friction = value;
                 }
@@ -191,7 +191,7 @@ namespace RibbonsGameplay
             set
             {
                 restitution = value; // Always update the buffer
-                foreach (PhysicsObject obj in bodies)
+                foreach (BoxObject obj in bodies)
                 {
                     obj.Restitution = value;
                 }
@@ -210,14 +210,6 @@ namespace RibbonsGameplay
         public override Body Body
         {
             get { return (bodies.Count > 0 ? bodies[0].Body : null); }
-        }
-
-        /// <summary>
-        /// The collection of component physics objects
-        /// </summary>
-        public ReadOnlyCollection<PhysicsObject> Bodies
-        {
-            get { return bodies.AsReadOnly(); }
         }
 
         /// <summary>
@@ -241,9 +233,9 @@ namespace RibbonsGameplay
         /// </summary>
         /// <param name="pos">Location of FIRST object in world coordinates</param>
         protected ComplexPhysicsObject(Vector2 pos)
-            : base(pos)
+            : base()
         {
-            bodies = new List<PhysicsObject>();
+            bodies = new List<BoxObject>();
             joints = new List<Joint>();
         }
 
@@ -258,49 +250,21 @@ namespace RibbonsGameplay
         /// </remarks>
         /// <param name="world">Farseer world to store bodies</param>
         /// <returns><c>true</c> if object allocation succeeded</returns>
-        public override bool ActivatePhysics(World world)
+        public override bool ActivatePhysics(World world, Texture2D texture)
         {
             isActive = true;
             bool success = true;
 
             // Create all other bodies.
-            foreach (PhysicsObject obj in bodies)
+            foreach (BoxObject obj in bodies)
             {
-                success = success && obj.ActivatePhysics(world);
+                success = success && obj.ActivatePhysics(world, texture);
             }
             success = success && CreateJoints(world);
-
-            // Clean up if we failed
-            if (!success)
-            {
-                DeactivatePhysics(world);
-            }
-
             isActive = success;
             return isActive;
         }
 
-        /// <summary>
-        /// Destroys the physics Bodies of this object if applicable,
-        /// removing them (and their joints) from the world.
-        /// </summary>
-        /// <param name="world">Farseer world that stores the bodies</param>
-        public override void DeactivatePhysics(World world)
-        {
-            if (isActive)
-            {
-                // Should be good for most (simple) applications.
-                foreach (Joint joint in joints)
-                {
-                    world.RemoveJoint(joint);
-                }
-                foreach (PhysicsObject obj in bodies)
-                {
-                    obj.DeactivatePhysics(world);
-                }
-                isActive = false;
-            }
-        }
 
         /// <summary>
         /// Creates the joints for this object. Executed as part of ActivatePhysics.
@@ -327,7 +291,7 @@ namespace RibbonsGameplay
         public override void Update(float dt)
         {
             // Just pass the simulation to the individual objects.
-            foreach (PhysicsObject obj in bodies)
+            foreach (BoxObject obj in bodies)
             {
                 obj.Update(dt);
             }
@@ -343,7 +307,7 @@ namespace RibbonsGameplay
         public override void Draw(GameCanvas canvas)
         {
             // Just pass the drawing to the individual objects.
-            foreach (PhysicsObject obj in bodies)
+            foreach (BoxObject obj in bodies)
             {
                 obj.Draw(canvas);
             }

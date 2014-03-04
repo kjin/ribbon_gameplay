@@ -101,7 +101,10 @@ namespace RibbonsGameplay
                 canvas.LoadContent(content);
 
                 ribbon_segment = canvas.GetTexture("ribbon_segment");
-                //ribbon = new RibbonObject();
+                List<Vector2> path = new List<Vector2>();
+                path.Add(new Vector2(100, 100));
+                path.Add(new Vector2(500, 100));
+                ribbon = new RibbonObject(world, ribbon_segment, new Vector2(100,100), ribbon_segment.Width, path);
                 seamstress = new SeamstressObject();
 
                 seamstressController = new SeamstressForceController(seamstress);
@@ -111,7 +114,7 @@ namespace RibbonsGameplay
                 world.AddController(ribbonController);
 
                 objects = new List<Object>();
-                //objects.Add(ribbon);
+                objects.Add(ribbon);
                 objects.Add(seamstress);
 
                 inputController = new MainInputController(seamstress, ribbon);
@@ -130,6 +133,7 @@ namespace RibbonsGameplay
                 Texture2D spritejump = canvas.GetTexture("spritejump");
                 Texture2D spritestanding = canvas.GetTexture("standing");
                 seamstress.ActivatePhysics(world, spritestanding, spritejump);
+
 
                 background = canvas.GetTexture("backgrounds/bluemt");
             }

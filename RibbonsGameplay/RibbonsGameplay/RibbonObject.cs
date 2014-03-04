@@ -26,23 +26,70 @@ namespace RibbonsGameplay
             protected Texture2D texture;
         #endregion
 
-        public RibbonObject(Texture2D texture, Vector2 pos, float linksize) :
-            this(texture, pos, linksize, new Vector2(linksize * texture.Width, texture.Height)) { }
+        public RibbonObject(World world, Texture2D texture, Vector2 pos, float linksize, List<Vector2> path) :
+            this(world, texture, pos, linksize, new Vector2(linksize * texture.Width, texture.Height), path) { }
 
-        public RibbonObject(Texture2D texture, Vector2 pos, float linksize, Vector2 size) : 
+        public RibbonObject(World world, Texture2D texture, Vector2 pos, float linksize, Vector2 size, List<Vector2> path) : 
             base(pos)
         {
             this.texture = texture;
             dimension = size;
+            this.BodyType = BodyType.Static;
 
-            BoxObject plank = new BoxObject(texture, anchor, boxSize);
-            plank.Density = 100000f;
-            bodies.Add(plank);
+            for(int i=1; i < path.Count; i++)
+            {
+                Vector2 point1 = path[i];
+                Vector2 point2 = path[i - 1];
+
+                double deltaX = point1.X - point2.X;
+                double deltaY = point1.Y - point2.Y;
+
+                double distance = Math.Sqrt((deltaX * deltaX) + (deltaY * deltaY));
+                float numLinks = (float)distance / linksize;
+
+                BoxObject link;
+                for (int k = 0; k < numLinks; k++)
+                {
+                    link = new BoxObject();
+                    link.ActivatePhysics(world, texture);
+
+                    if(deltaX == 0){
+                        link.Position = new Vector2(pos.X, pos.Y + (k * linksize));
+                    }
+                    else{
+                        link.Position = new Vector2(pos.X + (k * linksize), pos.Y);
+                    }
+                    link.BodyType = BodyType.Static;
+                    bodies.Add(link);
+                }
+            }
+
+            //BoxObject link = new BoxObject();
+            //link.ActivatePhysics(world, texture);
+            //link.Density = 100000f;
+            //bodies.Add(link);
+            //link = new BoxObject();
+            //link.ActivatePhysics(world, texture);
+            //link.Position = new Vector2(100, 100);
+            //link.BodyType = BodyType.Static;
+            //link.Density = 100000f;
+            //bodies.Add(link);
+
+
         }
 
-        public void Draw(GameCanvas g)
+        protected override bool CreateJoints(World world)
         {
+            return true;
+        }
 
+        public override void Draw(GameCanvas g)
+        {
+            Console.WriteLine("draw is called");
+            foreach (BoxObject link in bodies)
+            {
+                link.Draw(g);
+            }
         }
     }
 }
