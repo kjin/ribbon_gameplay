@@ -20,12 +20,10 @@ namespace RibbonsGameplay
             protected Vector2 finish;
 
             // Dimension information
-            protected Vector2 dimension;
             protected float linksize = 1.0f;
             protected float spacing = 0.0f;
 
             // The plank texture
-            protected Texture2D texture;
             protected List<Vector2> path;
         #endregion
 
@@ -43,6 +41,7 @@ namespace RibbonsGameplay
 
             float scale = 1 / 32f;
             linksize *= scale;
+            this.linksize = linksize;
 
             for (int i = 1; i < path.Count; i++)
             {
@@ -62,7 +61,7 @@ namespace RibbonsGameplay
                 {
                     
                     link = new BoxObject();
-                    link.ActivatePhysics(world, texture, scale);
+                    link.ActivatePhysics(world, texture, 1 / scale);
                     System.Diagnostics.Debug.WriteLine(link);
 
                     Vector2 startPos = path[i - 1];
@@ -87,6 +86,7 @@ namespace RibbonsGameplay
                             link.Position = new Vector2(startPos.X - (k * linksize) - 6 * scale, startPos.Y);
                         }
                     }
+                    Console.WriteLine(link.Position);
                     link.BodyType = BodyType.Dynamic;
                     bodies.Add(link);
                 }
