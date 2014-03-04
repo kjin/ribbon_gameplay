@@ -86,21 +86,33 @@ namespace RibbonsGameplay {
             get { return exitPressed && !exitPrevious; }
         }
 
+        /// <summary>
+        /// The movement of the ribbon.
+        /// </summary>
         public float RMovement
         {
             get { return rHorizontal; }
         }
 
+        /// <summary>
+        /// The movement of the seamstress.
+        /// </summary>
         public float SMovement
         {
             get { return sHorizontal; }
         }
 
+        /// <summary>
+        /// Whether or not the seamstress is jumping.
+        /// </summary>
         public bool Jumping 
         {
             get { return sIsJumping; }
         }
 
+        /// <summary>
+        /// Whether or not the ribbon is flipping.  
+        /// </summary>
         public bool Flipping
         {
             get { return rIsFlipping; }
