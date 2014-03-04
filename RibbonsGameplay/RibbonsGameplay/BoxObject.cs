@@ -46,6 +46,182 @@ namespace RibbonsGameplay
 
         #region Properties
             /// <summary>
+            /// Density of this body
+            /// </summary>
+            /// <remarks>
+            /// Changes density requires changing the Fixture.  Therefore, modifying
+            /// this attribute flags the object as dirty.  Dirty objects have their
+            /// fixtures destroyed and rebuilt in the Update method.
+            /// </remarks>
+            public virtual float Density
+            {
+                get { return density; }
+                set
+                {
+                    Debug.Assert(value >= 0, "Density must be >= 0");
+                    isDirty = true;
+                    density = value;
+                    if (density == 0)
+                    {
+                        BodyType = BodyType.Static;
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Whether our object has been flagged for garbage collection
+            /// </summary>
+            public bool Remove
+            {
+                get { return toRemove; }
+                set { toRemove = value; }
+            }
+
+            /// <summary>
+            /// X-coordinate for this physics body
+            /// </summary>
+            /// <remarks>
+            /// This value is buffered if it is set before body creation
+            /// </remarks>
+            public float X
+            {
+                get { return position.X; }
+                set { Position = new Vector2(value, position.Y); }
+            }
+
+            /// <summary>
+            /// Y-coordinate for this physics body
+            /// </summary>
+            /// <remarks>
+            /// This value is buffered if it is set before body creation
+            /// </remarks>
+            public float Y
+            {
+                get { return position.Y; }
+                set { Position = new Vector2(position.X, value); }
+            }
+
+            /// <summary>
+            /// X-coordinate for this physics body's velocity
+            /// </summary>
+            /// <remarks>
+            /// This value is buffered if it is set before body creation
+            /// </remarks>
+            public float VX
+            {
+                get { return linearVelocity.X; }
+                set { LinearVelocity = new Vector2(value, linearVelocity.Y); }
+            }
+
+            /// <summary>
+            /// Y-coordinate for this physics body's velocity
+            /// </summary>
+            /// <remarks>
+            /// This value is buffered if it is set before body creation
+            /// </remarks>
+            public float VY
+            {
+                get { return linearVelocity.Y; }
+                set { LinearVelocity = new Vector2(linearVelocity.X, value); }
+            }
+        
+            /// <summary>
+            /// Dimensions of this box
+            /// </summary>
+            /// <remarks>
+            /// We track the difference between the box shape and the texture size
+            /// for drawing purposes.  All changes are buffered until Update is called.
+            /// </remarks>
+            public Vector2 Dimension
+            {
+                get { return dimension; }
+                set
+                {
+                    Debug.Assert(value.X > 0 && value.Y > 0, "Dimension attributes must be > 0");
+                    isDirty = true;
+                    dimension = value;
+                    scale.X = dimension.X / texture.Width;
+                    scale.Y = dimension.Y / texture.Height;
+                }
+            }
+
+            /// <summary>
+            /// Box width
+            /// </summary>
+            /// <remarks>
+            /// We track the difference between the box shape and the texture size
+            /// for drawing purposes.  All changes are buffered until Update is called.
+            /// </remarks>
+            public float Width
+            {
+                get { return dimension.X; }
+                set
+                {
+                    Debug.Assert(value > 0, "Width must be > 0");
+                    isDirty = true;
+                    dimension.X = value;
+                    scale.X = dimension.X / texture.Width;
+                }
+            }
+
+            /// <summary>
+            /// Box height
+            /// </summary>
+            /// <remarks>
+            /// We track the difference between the box shape and the texture size
+            /// for drawing purposes.  All changes are buffered until Update is called.
+            /// </remarks>
+            public float Height
+            {
+                get { return dimension.Y; }
+                set
+                {
+                    Debug.Assert(value > 0, "Height must be > 0");
+                    isDirty = true;
+                    dimension.X = value;
+                    scale.Y = dimension.Y / texture.Height;
+                }
+            }
+
+            /// <summary>
+            /// Friction of this body
+            /// </summary>
+            /// <remarks>
+            /// Unlike density, we can pass this value through to the fixture.
+            /// </remarks>
+            public float Friction
+            {
+                get { return friction; }
+                set
+                {
+                    friction = value; // Always update the buffer
+                    if (fixture != null)
+                    {
+                        fixture.Friction = value;
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Restitution of this body
+            /// </summary>
+            /// <remarks>
+            /// Unlike density, we can pass this value through to the fixture.
+            /// </remarks>
+            public float Restitution
+            {
+                get { return restitution; }
+                set
+                {
+                    restitution = value; // Always update the buffer
+                    if (fixture != null)
+                    {
+                        fixture.Restitution = value;
+                    }
+                }
+            }    
+        
+            /// <summary>
             /// BodyType for Farseer physics
             /// </summary>
             /// <remarks>
