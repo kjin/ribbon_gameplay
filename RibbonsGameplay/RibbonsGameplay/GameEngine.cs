@@ -51,7 +51,7 @@ namespace RibbonsGameplay
                 protected List<Object> objects;
 
                 // To process the sensor callback
-                protected HashSet<Fixture> sensorFixtures;
+                protected HashSet<Fixture> sensorFixtures = new HashSet<Fixture>();
 
                 // The seamstress and ribbon
                 protected SeamstressObject seamstress;
