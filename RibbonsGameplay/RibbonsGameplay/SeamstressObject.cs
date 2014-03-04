@@ -208,8 +208,8 @@ namespace RibbonsGameplay
                 // To determine whether or not the dude is on the ground, 
                 // we create a thin sensor under his feet, which reports 
                 // collisions with the world but has no collision response.
-                Vector2 sensorCenter = new Vector2(0, dimension.Y / 2 * SENSOR_WIDTH_COEF);
-                sensorFixture = FixtureFactory.AttachRectangle(dimension.X, SENSOR_HEIGHT, DEFAULT_DENSITY, sensorCenter, body, SensorName);
+                Vector2 sensorCenter = new Vector2(0, dimension.Y / 2);
+                sensorFixture = FixtureFactory.AttachRectangle(dimension.X * SENSOR_WIDTH_COEF, SENSOR_HEIGHT, DEFAULT_DENSITY, sensorCenter, body, SensorName);
                 sensorFixture.IsSensor = true;
 
                 return success;
