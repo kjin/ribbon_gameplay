@@ -402,7 +402,7 @@ namespace RibbonsGameplay
             /// <param name="canvas">Drawing context</param>
             public virtual void Draw(GameCanvas g)
             {
-                g.DrawSprite(texture, Color.Black, Position, scale, rotation);
+                g.DrawSprite(texture, Color.White, Position, scale, rotation);
             }
 
         #endregion
