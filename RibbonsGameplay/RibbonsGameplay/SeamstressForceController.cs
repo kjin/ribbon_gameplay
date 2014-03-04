@@ -42,10 +42,44 @@ namespace RibbonsGameplay
                 seamstress = s;
             }
 
-
+            /// <summary>
+            /// Apply appropriate forces while collisions are processed
+            /// </summary>
+            /// <param name="dt">Timing values from parent loop</param>
             public override void Update(float dt)
             {
-                //throw new NotImplementedException();
+                if (!seamstress.Body.Enabled)
+                {
+                    return;
+                }
+
+                Vector2 moveForce = new Vector2(seamstress.Movement, 0.0f);
+                Vector2 velocity = seamstress.LinearVelocity;
+
+                // Don't want to be moving. Damp out player motion
+                if (moveForce.X == 0f)
+                {
+                    Vector2 dampForce = new Vector2(-seamstress.Damping * velocity.X, 0);
+                    seamstress.Body.ApplyForce(dampForce, seamstress.Position);
+                }
+
+                // Velocity too high, clamp it
+                if (Math.Abs(velocity.X) >= seamstress.MaxSpeed)
+                {
+                    velocity.X = Math.Sign(velocity.X) * seamstress.MaxSpeed;
+                    seamstress.LinearVelocity = velocity;
+                }
+                else
+                {
+                    seamstress.Body.ApplyForce(moveForce, seamstress.Position);
+                }
+
+                // Jump!
+                if (seamstress.IsJumping)
+                {
+                    Vector2 impulse = new Vector2(0, -2.1f);
+                    seamstress.Body.ApplyLinearImpulse(impulse, seamstress.Position);
+                }
             }
 
         #endregion

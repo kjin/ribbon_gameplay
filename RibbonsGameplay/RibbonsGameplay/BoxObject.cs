@@ -45,10 +45,93 @@ namespace RibbonsGameplay
         #endregion
 
         #region Properties
-            public virtual Vector2 Position
+            /// <summary>
+            /// BodyType for Farseer physics
+            /// </summary>
+            /// <remarks>
+            /// If you want to lock a body in place (e.g. a platform) set this value to STATIC.
+            /// KINEMATIC allows the object to move and collide, but ignores external forces 
+            /// (e.g. gravity). DYNAMIC makes this is a full-blown physics object.
+            /// </remarks>
+            public BodyType BodyType
             {
-                get { return position; }
-                set { position = value; }
+                get { return (body != null ? body.BodyType : bodyType); }
+                set
+                {
+                    bodyType = value; // Always update the buffer.
+                    if (body != null)
+                    {
+                        body.BodyType = value;
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Current position for this physics body
+            /// </summary>
+            public Vector2 Position
+            {
+                get { return (body != null ? body.Position : position); }
+                set
+                {
+                    position = value; // Always update the buffer.
+                    if (body != null)
+                    {
+                        body.Position = value;
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Linear velocity for this physics body
+            /// </summary>
+            public Vector2 LinearVelocity
+            {
+                get { return (body != null ? body.LinearVelocity : linearVelocity); }
+                set
+                {
+                    linearVelocity = value; // Always update the buffer.
+                    if (body != null)
+                    {
+                        body.LinearVelocity = value;
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Angle of rotation for this body (about the center).
+            /// </summary>
+            public float Rotation
+            {
+                get { return (body != null ? body.Rotation : rotation); }
+                set
+                {
+                    rotation = value; // Always update the buffer.
+                    if (body != null)
+                    {
+                        body.Rotation = value;
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Object texture for drawing purposes.
+            /// </summary>
+            public Texture2D Texture
+            {
+                get { return texture; }
+                set { texture = value; }
+            }
+            
+            /// <summary>
+            /// The Farseer body for this object.
+            /// </summary>
+            /// <remarks>
+            /// Use this body to add joints and apply forces.
+            /// </remarks>
+            public Body Body
+            {
+                get { return body; }
             }
         #endregion
 
@@ -116,6 +199,25 @@ namespace RibbonsGameplay
                 fixture.Friction = friction;
                 fixture.Restitution = restitution;
                 isDirty = false;
+            }
+
+            /// <summary>
+            /// Updates the object's physics state (NOT GAME LOGIC).
+            /// </summary>
+            /// <remarks>
+            /// This method is called AFTER the collision resolution
+            /// state.  Therefore, it should not be used to process
+            /// actions or any other gameplay information.  Its primary
+            /// purpose is to adjust changes to the fixture, which
+            /// have to take place after collision.
+            /// </remarks>
+            public virtual void Update(float dt)
+            {
+                // Recreate the fixture object if dimensions changed.
+                if (isDirty)
+                {
+                    CreateShape();
+                }
             }
 
             /// <summary>

@@ -201,6 +201,25 @@ namespace RibbonsGameplay
                 return success;
             }
 
+            /// <summary>
+            /// Updates the object AFTER collisions are resolved. Primarily for cooldowns.
+            /// </summary>
+            /// <param name="dt">Timing values from parent loop</param>
+            public override void Update(float dt)
+            {
+                // Apply cooldowns
+                if (IsJumping)
+                {
+                    jumpCooldown = JUMP_COOLDOWN;
+                }
+                else
+                {
+                    jumpCooldown = Math.Max(0, jumpCooldown - 1);
+                }
+
+                base.Update(dt);
+            }
+
             public override void Draw(GameCanvas g)
             {
                 SpriteEffects flip = facingRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
