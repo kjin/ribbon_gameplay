@@ -33,7 +33,7 @@ namespace RibbonsGameplay
         {
             textures = new List<TextureAsset>();
             foreach (string str in assetNames)
-                textures.Add(new TextureAsset(s));
+                textures.Add(new TextureAsset(str));
         }
 
         public void AddTexture(params string[] assetNames)
