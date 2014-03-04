@@ -223,6 +223,8 @@ namespace RibbonsGameplay
                 world.Step(dt);
                 seamstress.Update(dt);
 
+                if (inputController.Reset) seamstress.Position = new Vector2(2, 2);
+
                 base.Update(gameTime);
             }
 
