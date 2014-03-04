@@ -41,6 +41,9 @@ namespace RibbonsGameplay
             dimension = size;
             this.BodyType = BodyType.Static;
 
+            float scale = 1 / 32f;
+            linksize *= scale;
+
             for (int i = 1; i < path.Count; i++)
             {
                 Vector2 point1 = path[i];
@@ -53,22 +56,24 @@ namespace RibbonsGameplay
                 float numLinks = (float)distance / linksize;
 
                 BoxObject link;
+
+
                 for (int k = 0; k < numLinks; k++)
                 {
                     
                     link = new BoxObject();
-                    link.ActivatePhysics(world, texture, 1/32f);
+                    link.ActivatePhysics(world, texture, scale);
                     System.Diagnostics.Debug.WriteLine(link);
 
                     Vector2 startPos = path[i - 1];
                     if (deltaX == 0)
                     {
                         if (deltaY > 0){
-                            link.Position = new Vector2(startPos.X - 4, startPos.Y + (k * linksize) + 2);
+                            link.Position = new Vector2(startPos.X - 4 * scale, startPos.Y + (k * linksize) + 2 * scale);
                             link.Rotation = 0.5F * (float)Math.PI;
                         }
                         else{
-                            link.Position = new Vector2(startPos.X - 2, startPos.Y - (k * linksize) - 2);
+                            link.Position = new Vector2(startPos.X - 2 * scale, startPos.Y - (k * linksize) - 2 * scale);
                             link.Rotation = 0.5F * (float)Math.PI;
                         }
                         
@@ -79,10 +84,10 @@ namespace RibbonsGameplay
                             link.Position = new Vector2(startPos.X + (k * linksize), startPos.Y);
                         }
                         else{
-                            link.Position = new Vector2(startPos.X - (k * linksize) - 6, startPos.Y);
+                            link.Position = new Vector2(startPos.X - (k * linksize) - 6 * scale, startPos.Y);
                         }
                     }
-                    link.BodyType = BodyType.Static;
+                    link.BodyType = BodyType.Dynamic;
                     bodies.Add(link);
                 }
             }

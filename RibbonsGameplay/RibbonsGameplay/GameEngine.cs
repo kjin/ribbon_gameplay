@@ -112,8 +112,8 @@ namespace RibbonsGameplay
 
                 ribbon_segment = canvas.GetTexture("ribbon_segment");
                 List<Vector2> path = new List<Vector2>();
-                path.Add(new Vector2(250, 250));
-                path.Add(new Vector2(258, 338));
+                path.Add(new Vector2(5, 5));
+                path.Add(new Vector2(5, 30));
 
                 ribbon = new RibbonObject(world, ribbon_segment, new Vector2(100,100), ribbon_segment.Width, path);
                 seamstress = new SeamstressObject();
@@ -246,7 +246,7 @@ namespace RibbonsGameplay
                 seamstress.Update(dt);
 
                 if (inputController.Reset) seamstress.Position = new Vector2(2, 2);
-
+                Console.ReadLine();
                 base.Update(gameTime);
             }
 
