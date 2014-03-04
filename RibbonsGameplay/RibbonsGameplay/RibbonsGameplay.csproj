@@ -79,7 +79,10 @@
   <ItemGroup>
     <Compile Include="BoxObject.cs" />
     <Compile Include="ComplexPhysicsObject.cs" />
+    <Compile Include="CoolRibbonController.cs" />
+    <Compile Include="CoolRibbonObject.cs" />
     <Compile Include="Gradient.cs" />
+    <Compile Include="Hinge.cs" />
     <Compile Include="PhysicsObject.cs" />
     <Compile Include="PinObject.cs" />
     <Compile Include="RibbonForceController.cs" />

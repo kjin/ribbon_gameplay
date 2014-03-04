@@ -54,7 +54,7 @@ namespace RibbonsGameplay {
         private bool rIsFlipping;   // are we flipping the ribbon
 
         private SeamstressObject seamstress;
-        private RibbonObject ribbon;
+        private CoolRibbonObject ribbon;
     #endregion
 
     #region Properties (READ-ONLY)
@@ -123,7 +123,7 @@ namespace RibbonsGameplay {
         /// <summary>
         /// Creates a new input controller.
         /// </summary>
-        public MainInputController(SeamstressObject seamstress, RibbonObject ribbon) 
+        public MainInputController(SeamstressObject seamstress, CoolRibbonObject ribbon) 
         {
             this.seamstress = seamstress;
             this.ribbon = ribbon;
@@ -189,16 +189,26 @@ namespace RibbonsGameplay {
             rHorizontal = 0.0f;
             if (keyboard.IsKeyDown(Keys.A))
             {
-                rHorizontal -= 1.0f;
+                ribbon.left = true;
             }
             if (keyboard.IsKeyDown(Keys.D))
             {
-                rHorizontal += 1.0f;
+                ribbon.right = true;
             }
             rIsFlipping = keyboard.IsKeyDown(Keys.S);
 
+            if (seamstress.isRibboned && ribbon.left)
+            {
+                sHorizontal -= 1.0f;
+            }
+            if (seamstress.isRibboned && ribbon.right)
+            {
+                sHorizontal += 1.0f;
+            }
+
             seamstress.Movement = sHorizontal * seamstress.Force;
             seamstress.IsJumping = sIsJumping;
+            
 
         }
     #endregion

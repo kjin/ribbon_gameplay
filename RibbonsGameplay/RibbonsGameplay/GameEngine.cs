@@ -55,11 +55,11 @@ namespace RibbonsGameplay
 
                 // The seamstress and ribbon
                 protected SeamstressObject seamstress;
-                protected RibbonObject ribbon;
+                protected CoolRibbonObject ribbon;
 
                 // Controllers for the seamstress and ribbon
                 protected SeamstressForceController seamstressController;
-                protected RibbonForceController ribbonController;
+                protected CoolRibbonController ribbonController;
 
                 // Physics simulator
                 protected World world;
@@ -111,23 +111,21 @@ namespace RibbonsGameplay
                 canvas.LoadContent(content);
 
                 ribbon_segment = canvas.GetTexture("ribbon_segment");
-                List<Vector2> path = new List<Vector2>();
+                /*List<Vector2> path = new List<Vector2>();
                 path.Add(new Vector2(100, 100));
-                path.Add(new Vector2(500, 100));
-                ribbon = new RibbonObject(world, ribbon_segment, new Vector2(100,100), ribbon_segment.Width, path);
+                path.Add(new Vector2(500, 100));*/
+                //ribbon = new RibbonObject(world, ribbon_segment, new Vector2(100,100), ribbon_segment.Width, path);
                 seamstress = new SeamstressObject();
 
                 seamstressController = new SeamstressForceController(seamstress);
                 world.AddController(seamstressController);
 
-                ribbonController = new RibbonForceController(ribbon);
-                world.AddController(ribbonController);
+                /*ribbonController = new RibbonForceController(ribbon);
+                world.AddController(ribbonController);*/
 
                 objects = new List<Object>();
-                objects.Add(ribbon);
-                objects.Add(seamstress);
-
-                inputController = new MainInputController(seamstress, ribbon);               
+                //objects.Add(ribbon);
+                objects.Add(seamstress);               
 
                 base.Initialize();
             }
@@ -147,14 +145,14 @@ namespace RibbonsGameplay
             {
                 MakeBlock(boxtext, new Vector2(2, 7));
                 MakeBlock(tallflatbox_tex, new Vector2(14, 10));
-                MakeBlock(shortflatbox_tex, new Vector2(20, 21.4f));
-                MakeBlock(saverock, new Vector2(20, 20), true);
+                //MakeBlock(shortflatbox_tex, new Vector2(20, 21.4f));
+                //MakeBlock(saverock, new Vector2(20, 20), true);
                 MakeBlock(glasshook_tex, new Vector2(3, 15));
-                MakeBlock(boxtext, new Vector2(27,8));
+                MakeBlock(boxtext, new Vector2(24,8));
                 MakeBlock(boxtext, new Vector2(19, 7));
-                MakeBlock(boxtext, new Vector2(30, 12));
+                //MakeBlock(boxtext, new Vector2(30, 12));
                 MakeBlock(spool_tex, new Vector2(8, 23));
-                MakeBlock(boxtext, new Vector2(26, 18));
+                MakeBlock(boxtext, new Vector2(24, 18));
                 MakeBlock(boxtext, new Vector2(20, 14));
             }
 
@@ -174,7 +172,7 @@ namespace RibbonsGameplay
 
                 background = canvas.GetTexture("backgrounds/bluemt");
 
-                ribbon.ActivatePhysics(world, scale);
+                //ribbon.ActivatePhysics(world, scale);
 
                 boxtext = canvas.GetTexture("64x64platform");
                 spool_tex = canvas.GetTexture("64x64thimbs");
@@ -183,6 +181,13 @@ namespace RibbonsGameplay
                 shortflatbox_tex = canvas.GetTexture("128x32platform");
                 tallflatbox_tex = canvas.GetTexture("128x64platform");
                 glasshook_tex = canvas.GetTexture("64x128hookglass");
+
+                ribbon = new CoolRibbonObject(world, boxtext);
+                objects.Add(ribbon);
+                ribbonController = new CoolRibbonController(ribbon);
+                world.AddController(ribbonController);
+
+                inputController = new MainInputController(seamstress, ribbon);
 
                 MakeLevel();
             }
@@ -207,11 +212,27 @@ namespace RibbonsGameplay
                 var ud2 = contact.FixtureB.UserData;
 
                 // See if we have landed on the ground.
-                if ((seamstress.SensorName.Equals(ud2) && seamstress != body1.UserData) ||
-                   (seamstress.SensorName.Equals(ud1) && seamstress != body2.UserData))
+                if (seamstress.SensorName.Equals(ud2) && seamstress != body1.UserData) {
+                    seamstress.IsGrounded = true;
+                    sensorFixtures.Add(contact.FixtureB);
+
+                    if (ribbon == body1.UserData)
+                    {
+                        seamstress.isRibboned = true;
+                    }
+                }
+                
+                
+                if (seamstress.SensorName.Equals(ud1) && seamstress != body2.UserData)
                 {
                     seamstress.IsGrounded = true;
-                    sensorFixtures.Add(seamstress == body1.UserData ? contact.FixtureB : contact.FixtureA);
+                    sensorFixtures.Add(contact.FixtureA);
+
+                    if (ribbon == body2.UserData)
+                    {
+                        seamstress.isRibboned = true;
+                    }
+
                 }
 
                 return true; // keep the contact
@@ -226,13 +247,23 @@ namespace RibbonsGameplay
                 var ud2 = contact.FixtureB.UserData;
 
                 // See if we are off the ground.
-                if ((seamstress.SensorName.Equals(ud2) && seamstress != body1.UserData) ||
-                   (seamstress.SensorName.Equals(ud1) && seamstress != body2.UserData))
-                {
-                    sensorFixtures.Remove(seamstress == body1.UserData ? contact.FixtureB : contact.FixtureA);
+                if (seamstress.SensorName.Equals(ud2) && seamstress != body1.UserData){
+                    sensorFixtures.Remove(contact.FixtureB);
                     if (sensorFixtures.Count == 0)
                     {
                         seamstress.IsGrounded = false;
+                        seamstress.isRibboned = false;
+                    }
+
+                    
+                }
+                 if  (seamstress.SensorName.Equals(ud1) && seamstress != body2.UserData)
+                {
+                    sensorFixtures.Remove(contact.FixtureA);
+                    if (sensorFixtures.Count == 0)
+                    {
+                        seamstress.IsGrounded = false;
+                        seamstress.isRibboned = false;
                     }
                 }
             }

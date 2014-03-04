@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework.Input;
 using Color = Microsoft.Xna.Framework.Color; // Stupid Box2DX name collision!
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using FarseerPhysics.Dynamics.Joints;
 
 namespace RibbonsGameplay
 {
@@ -146,6 +147,7 @@ namespace RibbonsGameplay
         #endregion
 
         #region Fields
+            public bool isRibboned;
 
             protected int frame;
             protected int frameSwitch;
@@ -182,6 +184,7 @@ namespace RibbonsGameplay
 
                 // Gameplay attributes
                 isGrounded = false;
+                isRibboned = false;
                 isJumping = false;
 
                 jumpCooldown = 0;

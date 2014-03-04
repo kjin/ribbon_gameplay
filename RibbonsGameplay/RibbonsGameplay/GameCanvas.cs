@@ -40,12 +40,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 #endregion
 
-namespace RibbonsGameplay {
+namespace RibbonsGameplay
+{
 
-#region Enum
+    #region Enum
     /// <summary>
-	/// Draw states to keep track of our current drawing pass
-	/// </summary>
+    /// Draw states to keep track of our current drawing pass
+    /// </summary>
     /// <remarks>
     /// There is no order on drawing passes for this canvas, but the canvas
     /// can only be in one drawing pass at a time.  If you wish to change
@@ -53,17 +54,18 @@ namespace RibbonsGameplay {
     /// currently active.  In particular, the sprite pass is not drawn to
     /// the screen until you end it.
     /// </remarks>
-    public enum DrawState {
+    public enum DrawState
+    {
         Inactive,       // Not in the middle of any pass.
         SpritePass,     // In the middle of a SpriteBatch pass.
         PolygonPass     // In the middle of a Polygon pass.
     };
-#endregion
+    #endregion
 
     /// <summary>
-	/// Abstract the graphics features for ease of use.
+    /// Abstract the graphics features for ease of use.
     /// </summary>
-	/// <remarks>
+    /// <remarks>
     /// This class supports both sprite and polygonal drawing.  Normally, these
     /// are provided by different classes; this interface gathers them 
     /// together in a single interface.
@@ -72,16 +74,19 @@ namespace RibbonsGameplay {
     /// called.  You can also repeat a pass in a single animation frame.
     /// The purpose of the passes is to force you end a Sprite pass before
     /// drawing polygons and vice versa.
-	/// </remarks>
-    public class GameCanvas {
+    /// </remarks>
+    public class GameCanvas
+    {
 
-    #region Constants
+        #region Constants
         // Default window size.  This belongs in the view, not the game engine.
         private const int GAME_WIDTH = 1024;
         private const int GAME_HEIGHT = 768;
-    #endregion
+        #endregion
 
-    #region Fields
+        #region Fields
+        protected Texture2D tiny;
+
         protected Texture2DManager textureManager;
 
         // Used to track window properties
@@ -105,20 +110,23 @@ namespace RibbonsGameplay {
         // Attributes to rescale the image
         protected Matrix transform;
         protected Vector2 worldScale;
-    #endregion
+        #endregion
 
-    #region Properties (READ-WRITE)
+        #region Properties (READ-WRITE)
         /// <summary>
         /// Whether this instance is fullscreen.
         /// </summary>
         /// <remarks>
         /// This value cannot be reset during an active drawing pass.
         /// </remarks>
-        public bool IsFullscreen {
+        public bool IsFullscreen
+        {
             get { return fullscreen; }
-            set {
+            set
+            {
                 Debug.Assert(state == DrawState.Inactive, "Cannot reset property while actively drawing");
-                if (fullscreen != value && graphics != null) {
+                if (fullscreen != value && graphics != null)
+                {
                     graphics.IsFullScreen = value;
                     graphics.ApplyChanges();
                 }
@@ -136,10 +144,13 @@ namespace RibbonsGameplay {
         /// 
         /// This value cannot be reset during an active drawing pass.
         /// </remarks>
-        public Rectangle Bounds {
-            get {
+        public Rectangle Bounds
+        {
+            get
+            {
                 // Update bounds to the current state
-                if (graphics != null) {
+                if (graphics != null)
+                {
                     bounds.X = window.ClientBounds.X;
                     bounds.Y = window.ClientBounds.Y;
                     bounds.Width = graphics.PreferredBackBufferWidth;
@@ -147,10 +158,12 @@ namespace RibbonsGameplay {
                 }
                 return bounds;
             }
-            set {
+            set
+            {
                 Debug.Assert(state == DrawState.Inactive, "Cannot reset property while actively drawing");
                 bounds = value;
-                if (graphics != null) {
+                if (graphics != null)
+                {
                     // Code to change window size
                     graphics.PreferredBackBufferWidth = bounds.Width;
                     graphics.PreferredBackBufferHeight = bounds.Height;
@@ -173,17 +186,22 @@ namespace RibbonsGameplay {
         /// 
         /// This value cannot be reset during an active drawing pass.
         /// </remarks>
-        public int X {
-            get {
-                if (window != null && state == DrawState.Inactive) {
+        public int X
+        {
+            get
+            {
+                if (window != null && state == DrawState.Inactive)
+                {
                     bounds.X = window.ClientBounds.X;
                 }
                 return bounds.X;
             }
-            set {
+            set
+            {
                 Debug.Assert(state == DrawState.Inactive, "Cannot reset property while actively drawing");
                 bounds.X = value;
-                if (window != null) {
+                if (window != null)
+                {
                     System.Windows.Forms.Form form = (System.Windows.Forms.Form)System.Windows.Forms.Control.FromHandle(window.Handle);
                     form.Location = new System.Drawing.Point(bounds.X, bounds.Y);
                 }
@@ -200,17 +218,22 @@ namespace RibbonsGameplay {
         /// 
         /// This value cannot be reset during an active drawing pass.
         /// </remarks>
-        public int Y {
-            get {
-                if (window != null && state == DrawState.Inactive) {
+        public int Y
+        {
+            get
+            {
+                if (window != null && state == DrawState.Inactive)
+                {
                     bounds.Y = window.ClientBounds.Y;
                 }
                 return bounds.Y;
             }
-            set {
+            set
+            {
                 Debug.Assert(state == DrawState.Inactive, "Cannot reset property while actively drawing");
                 bounds.Y = value;
-                if (window != null) {
+                if (window != null)
+                {
                     System.Windows.Forms.Form form = (System.Windows.Forms.Form)System.Windows.Forms.Control.FromHandle(window.Handle);
                     form.Location = new System.Drawing.Point(bounds.X, bounds.Y);
                 }
@@ -223,17 +246,22 @@ namespace RibbonsGameplay {
         /// <remarks>
         /// This value cannot be reset during an active drawing pass.
         /// </remarks>
-        public int Width {
-            get {
-                if (graphics != null && state == DrawState.Inactive) {
+        public int Width
+        {
+            get
+            {
+                if (graphics != null && state == DrawState.Inactive)
+                {
                     bounds.Width = graphics.PreferredBackBufferWidth;
                 }
                 return bounds.Width;
             }
-            set {
+            set
+            {
                 Debug.Assert(state == DrawState.Inactive, "Cannot reset property while actively drawing");
                 bounds.Width = value;
-                if (graphics != null && state == DrawState.Inactive) {
+                if (graphics != null && state == DrawState.Inactive)
+                {
                     graphics.PreferredBackBufferWidth = value;
                     graphics.ApplyChanges();
                 }
@@ -246,17 +274,22 @@ namespace RibbonsGameplay {
         /// <remarks>
         /// This value cannot be reset during an active drawing pass.
         /// </remarks>
-        public int Height {
-            get {
-                if (graphics != null) {
+        public int Height
+        {
+            get
+            {
+                if (graphics != null)
+                {
                     bounds.Height = graphics.PreferredBackBufferHeight;
                 }
                 return bounds.Height;
             }
-            set {
+            set
+            {
                 Debug.Assert(state == DrawState.Inactive, "Cannot reset property while actively drawing");
                 bounds.Height = value;
-                if (graphics != null) {
+                if (graphics != null)
+                {
                     graphics.PreferredBackBufferWidth = value;
                     graphics.ApplyChanges();
                 }
@@ -272,13 +305,15 @@ namespace RibbonsGameplay {
         /// 
         /// This value cannot be reset during an active drawing pass.
         /// </remarks>
-        public Vector2 Scale {
+        public Vector2 Scale
+        {
             get { return worldScale; }
-            set {
+            set
+            {
                 Debug.Assert(state == DrawState.Inactive, "Cannot reset property while actively drawing");
                 Debug.Assert(value.X > 0 && value.Y > 0, "Scale attributes must be positive");
                 worldScale = value;
-                transform = Matrix.CreateScale(worldScale.X,worldScale.Y,1.0f);
+                transform = Matrix.CreateScale(worldScale.X, worldScale.Y, 1.0f);
             }
         }
 
@@ -288,9 +323,11 @@ namespace RibbonsGameplay {
         /// <remarks>
         /// This value cannot be reset during an active drawing pass.
         /// </remarks>
-        public float SX {
+        public float SX
+        {
             get { return worldScale.X; }
-            set {
+            set
+            {
                 Debug.Assert(state == DrawState.Inactive, "Cannot reset property while actively drawing");
                 Debug.Assert(value > 0, "Scale attributes must be positive");
                 worldScale.X = value;
@@ -304,9 +341,11 @@ namespace RibbonsGameplay {
         /// <remarks>
         /// This value cannot be reset during an active drawing pass.
         /// </remarks>
-        public float SY {
+        public float SY
+        {
             get { return worldScale.Y; }
-            set {
+            set
+            {
                 Debug.Assert(state == DrawState.Inactive, "Cannot reset property while actively drawing");
                 Debug.Assert(value > 0, "Scale attributes must be positive");
                 worldScale.Y = value;
@@ -317,13 +356,14 @@ namespace RibbonsGameplay {
         /// <summary>
         /// The font for displaying messages.
         /// </summary>
-        public SpriteFont Font {
+        public SpriteFont Font
+        {
             get { return font; }
             set { font = value; }
         }
-    #endregion
+        #endregion
 
-    #region Initialization
+        #region Initialization
         /// <summary>
         /// Constructor to create a new instance of our canvas.
         /// </summary>
@@ -334,7 +374,8 @@ namespace RibbonsGameplay {
         /// to initialize before we do that. 
         /// </remarks>
         /// <param name="game">The root game engine for this canvas</param>
-        public GameCanvas(Game game) {
+        public GameCanvas(Game game)
+        {
             // Create a new graphics manager.
             fullscreen = false;
             graphics = new GraphicsDeviceManager(game);
@@ -355,10 +396,12 @@ namespace RibbonsGameplay {
         /// initialization.
         /// </remarks>
         /// <param name="game">The root game engine for this canvas</param>
-        public void Initialize(Game game) {
+        public void Initialize(Game game)
+        {
             // Override window position at start-up
             window = game.Window;
-            if (!fullscreen) {
+            if (!fullscreen)
+            {
                 graphics.PreferredBackBufferWidth = bounds.Width;
                 graphics.PreferredBackBufferHeight = bounds.Height;
                 graphics.ApplyChanges();
@@ -376,6 +419,11 @@ namespace RibbonsGameplay {
 
             // We are not actively drawing
             state = DrawState.Inactive;
+
+            tiny = new Texture2D(game.GraphicsDevice, 1, 1);
+            Color[] data = new Color[1];
+            data[0] = Color.White;
+            tiny.SetData<Color>(data);
 
             textureManager = new Texture2DManager();
         }
@@ -396,11 +444,11 @@ namespace RibbonsGameplay {
         /// <param name='content'>
         /// Reference to global content manager.
         /// </param>
-        public void LoadContent(ContentManager content) {
+        public void LoadContent(ContentManager content)
+        {
             // Load sprite font
             //font = content.Load<SpriteFont>("Shared\\PhysicsFont");
-
-            AddTexture("spritejump", "standing", "ribbon_segment", "spritefall", "walkfstrip", "64x64platform","64x64thimbs","64x128platform","saverock","128x32platform","128x64platform","64x128hookglass");
+            AddTexture("spritejump", "standing", "ribbon_segment", "spritefall", "walkfstrip", "64x64platform", "64x64thimbs", "64x128platform", "saverock", "128x32platform", "128x64platform", "64x128hookglass");
             AddTexture("backgrounds/bluemt");
             textureManager.LoadContent(content);
         }
@@ -408,12 +456,13 @@ namespace RibbonsGameplay {
         /// <summary>
         /// Eliminate any resources that prevent garbage collection.
         /// </summary>
-        public void Dispose() {
+        public void Dispose()
+        {
             graphics = null;
             window = null;
             effect.Dispose();
         }
-    #endregion
+        #endregion
 
         #region Drawing Methods
         /// <summary>
@@ -446,6 +495,14 @@ namespace RibbonsGameplay {
             // Set up the drawing canvas to use the appropriate blending.
             // Deferred sorting guarantees Sprites are drawn in order given.
             spriteBatch.Begin(SpriteSortMode.Deferred, blend, null, null, null, null, transform);
+        }
+
+        public void DrawLine(Vector2 start, Vector2 end, Color color)
+        {
+            Vector2 diff = end - start;
+            float angle = (float)Math.Atan2(diff.Y, diff.X);
+            float length = diff.Length();
+            DrawSprite(tiny, color, start, new Vector2(length, 2f / length), angle);
         }
 
         /// <summary>
